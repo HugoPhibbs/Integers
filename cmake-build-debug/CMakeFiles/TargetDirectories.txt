@@ -1,0 +1,3 @@
+C:/Users/Hugo/Documents/Uni/Cosc/Integers/cmake-build-debug/CMakeFiles/Integers.dir
+C:/Users/Hugo/Documents/Uni/Cosc/Integers/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Hugo/Documents/Uni/Cosc/Integers/cmake-build-debug/CMakeFiles/rebuild_cache.dir
