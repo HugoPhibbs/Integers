@@ -1,0 +1,5 @@
+# ninja log v5
+16	165	6715940363854526	CMakeFiles/Integers.dir/src/Integer.cpp.obj	99033f662c697cc5
+12	166	6715940363865955	CMakeFiles/Integers.dir/src/Rational.cpp.obj	6a78e3ded5442054
+0	367	6715940365838109	CMakeFiles/Integers.dir/main.cpp.obj	6679d0f6f1cf6fcc
+368	656	6715940368657714	Integers.exe	b08d4a1f2802ea41
