@@ -3,6 +3,7 @@
 //
 
 #include <string>
+#include <ostream>
 
 #ifndef INTEGERS_INTEGER_H
 #define INTEGERS_INTEGER_H
@@ -20,7 +21,6 @@ private:
      */
     int value;
 
-
 public:
     /**
      * Default constructor for an Integer
@@ -33,13 +33,6 @@ public:
     ~Integer();
 
     /**
-     * Constructor for an Integer, copies another integer
-     *
-     * @param i Integer object to be copied
-     */
-    Integer(Integer i);
-
-    /**
      * Constructor for an Integer
      *
      * @param digits string for digits of an integer value
@@ -47,21 +40,44 @@ public:
     Integer(std::string digits);
 
     /**
+     * Constructor for an Integer
+     *
+     * @param val int value to be set as the value of this Integer
+     */
+    explicit Integer(int val);
+
+    /**
      * Finds the greatest common divisor (gcd) of two Integers a and b
+     *
+     * Uses the Euclidean algorithm
      *
      * @param a Integer as described
      * @param b Integer as described
      * @return Integer object as described
      */
-    static Integer gcd(Integer a, Integer b);
+    static Integer gcd(Integer& a, Integer& b);
 
     /**
-     * The + operator
+     * The unary + operator
+     *
+     * @return a new Integer object
+     */
+    Integer operator+() const;
+
+    /**
+     * The unary - operator
+     *
+     * @return a new Integer object
+     */
+    Integer operator-() const;
+
+    /**
+     * The binary + operator
      *
      * @param b Integer object to be added to this object
      * @return a new Integer
      */
-    Integer operator+(const Integer& b);
+    Integer operator+(const Integer& b) const;
 
     /**
      * The * operator
@@ -69,15 +85,15 @@ public:
      * @param b Integer object to multiply this object
      * @return a new Integer
      */
-    Integer operator*(const Integer& b);
+    Integer operator*(const Integer& b) const;
 
     /**
-     * The - operator. Finds this a-b where a is this Integer
+     * The binary - operator. Finds this a-b where a is this Integer
      *
      * @param b Integer object
      * @return a new Integer
      */
-    Integer operator-(const Integer& b);
+    Integer operator-(const Integer& b) const;
 
     /**
      * The / operator. Finds this a/b where a is this Integer
@@ -85,7 +101,7 @@ public:
      * @param b Integer object
      * @return a new Integer
      */
-    Integer operator/(const Integer& b);
+    Integer operator/(const Integer& b) const;
 
     /**
      * The % operator. Finds this a%b where a is this Integer
@@ -93,7 +109,7 @@ public:
      * @param b Integer object
      * @return a new Integer
      */
-    Integer operator%(const Integer& b);
+    Integer operator%(const Integer& b) const;
 
     /**
      * The += operator. Finds this a+=b where a is this Integer
@@ -107,7 +123,7 @@ public:
      * The *= operator. Finds this a*=b where a is this Integer
      *
      * @param b Integer object
-     * @return this integer with b's value multiplied
+     * @return this Integer with b's value multiplied
      */
     Integer operator*=(const Integer& b);
 
@@ -115,7 +131,7 @@ public:
      * The -= operator. Finds this a-=b where a is the value of this Integer
      *
      * @param b Integer object
-     * @return this integer with b's value subtracted
+     * @return this Integer with b's value subtracted
      */
     Integer operator-=(const Integer& b);
 
@@ -123,7 +139,7 @@ public:
      * The /= operator. Finds this a/=b where a is this Integer
      *
      * @param b Integer object
-     * @return this integer with b's value divided
+     * @return this Integer with b's value divided
      */
     Integer operator/=(const Integer& b);
 
@@ -141,7 +157,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator==(const Integer& b);
+    bool operator==(const Integer& b) const;
 
     /**
      * The != operator. Finds this a!=b where a is this Integer
@@ -149,7 +165,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator!=(const Integer& b);
+    bool operator!=(const Integer& b) const;
 
     /**
      * The <= operator. Finds this a<=b where a is this Integer
@@ -157,7 +173,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator<=(const Integer& b);
+    bool operator<=(const Integer& b) const;
 
     /**
      * The >= operator. Finds this a>=b where a is this Integer
@@ -165,7 +181,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator>=(const Integer& b);
+    bool operator>=(const Integer& b) const;
 
     /**
      * The < operator. Finds this a<b where a is this Integer
@@ -173,7 +189,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator<(const Integer& b);
+    bool operator<(const Integer& b) const;
 
     /**
      * The > operator. Finds this a>b where a is this Integer
@@ -181,12 +197,25 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator>(const Integer& b);
+    bool operator>(const Integer& b) const;
 
-    Integer operator<<(const Integer& b);
+    /**
+     * The << operator
+     *
+     * @param output std::ostream output object
+     * @param b Integer object
+     * @return std::ostream object
+     */
+    friend std::ostream& operator<<(std::ostream &output, Integer &b);
 
-    Integer operator>>(const Integer& b);
-
+    /**
+     * The >> operator
+     *
+     * @param output std::istream output object
+     * @param b Integer object
+     * @return std::istream object
+     */
+    friend std::istream& operator>>(std::istream &input, Integer &b);
 
     /**
      * The primitive int value of this Integer
