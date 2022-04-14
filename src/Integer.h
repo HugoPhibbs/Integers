@@ -4,6 +4,7 @@
 
 #include <string>
 #include <ostream>
+#include <iostream>
 
 #ifndef INTEGERS_INTEGER_H
 #define INTEGERS_INTEGER_H
@@ -33,11 +34,20 @@ public:
     ~Integer();
 
     /**
+     * Copy constructor
+     *
+     * @param b Integer object to be copied
+     */
+    Integer(const Integer &b){
+        value = b.getValue();
+    }
+
+    /**
      * Constructor for an Integer
      *
      * @param digits string for digits of an integer value
      */
-    Integer(std::string digits);
+    explicit Integer(const std::string& digits);
 
     /**
      * Constructor for an Integer
@@ -197,7 +207,7 @@ public:
      * @param b Integer object
      * @return bool as described
      */
-    bool operator>(const Integer& b) const;
+    bool operator >(const Integer& b) const;
 
     /**
      * The << operator

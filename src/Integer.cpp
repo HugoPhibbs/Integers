@@ -8,11 +8,12 @@ Integer::Integer() {
 
 }
 
-Integer::Integer(std::string) {
-
+Integer::Integer(const std::string& digits) {
+    value = std::stoi(digits);
 }
 
 Integer Integer::gcd(Integer& a , Integer& b) {
+    //TODO does this work for negative values??
     if (a.getValue() == 0) {
         return b;
     }
@@ -51,6 +52,7 @@ Integer Integer::operator%(const Integer &b) const {
 
 Integer Integer::operator+=(const Integer &b) {
     *this=Integer(*this+b);
+    return *this;
 }
 
 Integer Integer::operator*=(const Integer &b) {
@@ -115,7 +117,7 @@ std::ostream& operator<<(std::ostream &output, Integer &b) {
 }
 
 std::istream& operator>>(std::istream &input, Integer &b) {
-    input >> b.getValue();
+    input >> b.value;
     return input;
 }
 
