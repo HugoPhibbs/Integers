@@ -20,7 +20,7 @@ private:
     /**
      * The primitive int value of this Integer
      */
-    int value;
+    int value = 0;
 
 public:
     /**
@@ -65,7 +65,7 @@ public:
      * @param b Integer as described
      * @return Integer object as described
      */
-    static Integer gcd(Integer& a, Integer& b);
+    static Integer gcd(Integer a, Integer b);
 
     /**
      * The unary + operator
@@ -233,5 +233,12 @@ public:
      * @return int as described
      */
     int getValue() const;
+
+    /**
+     * Sets the value of this Integer
+     *
+     * @param val int for value to be set
+     */
+    void setValue(int val);
 
 };
