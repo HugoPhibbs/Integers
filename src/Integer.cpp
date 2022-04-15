@@ -12,8 +12,10 @@ Integer::Integer(const std::string& digits) {
     value = std::stoi(digits);
 }
 
-Integer Integer::gcd(Integer& a , Integer& b) {
+Integer Integer::gcd(Integer a , Integer b) {
     //TODO does this work for negative values??
+    a.setValue(abs(a.getValue()));
+    b.setValue(abs(b.getValue()));
     if (a.getValue() == 0) {
         return b;
     }
@@ -119,5 +121,9 @@ std::ostream& operator<<(std::ostream &output, Integer &b) {
 std::istream& operator>>(std::istream &input, Integer &b) {
     input >> b.value;
     return input;
+}
+
+void Integer::setValue(int val) {
+    value = val;
 }
 

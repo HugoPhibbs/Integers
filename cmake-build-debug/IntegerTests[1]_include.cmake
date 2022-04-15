@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/Hugo/Documents/Uni/Cosc/Integers/cmake-build-debug/IntegerTests[1]_tests.cmake")
+  include("C:/Users/Hugo/Documents/Uni/Cosc/Integers/cmake-build-debug/IntegerTests[1]_tests.cmake")
+else()
+  add_test(IntegerTests_NOT_BUILT IntegerTests_NOT_BUILT)
+endif()
