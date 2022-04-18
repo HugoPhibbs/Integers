@@ -38,9 +38,7 @@ public:
      *
      * @param b Integer object to be copied
      */
-    Integer(const Integer &b){
-        value = b.getValue();
-    }
+    Integer(const Integer &b);
 
     /**
      * Constructor for an Integer
