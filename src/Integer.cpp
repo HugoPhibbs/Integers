@@ -4,12 +4,20 @@
 
 #include "Integer.h"
 
-Integer::Integer() {
+Integer::Integer() = default;
 
+Integer::Integer(const int val) {
+    value = val;
 }
+
+Integer::~Integer() = default;
 
 Integer::Integer(const std::string& digits) {
     value = std::stoi(digits);
+}
+
+Integer::Integer(const Integer &b) {
+    value = b.getValue();
 }
 
 Integer Integer::gcd(Integer a , Integer b) {
@@ -25,8 +33,6 @@ Integer Integer::gcd(Integer a , Integer b) {
     Integer remainder = a % b;
     return gcd(b, remainder);
 }
-
-Integer::~Integer() = default;
 
 int Integer::getValue() const {
     return value;
@@ -99,10 +105,6 @@ bool Integer::operator<(const Integer &b) const {
 
 bool Integer::operator>(const Integer &b) const {
     return getValue() > b.getValue();
-}
-
-Integer::Integer(const int val) {
-    value = val;
 }
 
 Integer Integer::operator-() const {
