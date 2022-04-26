@@ -81,6 +81,3 @@ TEST_F(IntegerTest, TestCopyConstructor) {
     Integer y = Integer(e);
     EXPECT_EQ(-5, y.getValue());
 }
-
-
-// TODO
