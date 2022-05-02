@@ -39,10 +39,9 @@ namespace cosc326 {
 		// lhs < rhs -- a 'friend' means < isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Rational& lhs, const Rational& rhs);
+        std::string toString() const;
 
 	private:
-        std::string toString() const;
-		// Can add internal storage or methods here
 	};
 
 	// Binary operators
