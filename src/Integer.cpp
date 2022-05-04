@@ -3,129 +3,134 @@
 //
 
 #include "Integer.h"
+namespace cosc326 {
+    Integer::Integer() = default;
 
-Integer::Integer() = default;
-
-Integer::Integer(const int val) {
-    value = val;
-}
-
-Integer::~Integer() = default;
-
-Integer::Integer(const std::string& digits) {
-    value = std::stoi(digits);
-}
-
-Integer::Integer(const Integer &b) {
-    value = b.getValue();
-}
-
-Integer Integer::gcd(Integer a , Integer b) {
-    //TODO does this work for negative values??
-    a.setValue(abs(a.getValue()));
-    b.setValue(abs(b.getValue()));
-    if (a.getValue() == 0) {
-        return b;
+    Integer::Integer(const int val) {
+        value = val;
     }
-    else if (b.getValue() == 0) {
-        return a;
+
+    Integer::~Integer() = default;
+
+    Integer::Integer(const std::string &digits) {
+        value = std::stoi(digits);
     }
-    Integer remainder = a % b;
-    return gcd(b, remainder);
-}
 
-int Integer::getValue() const {
-    return value;
-}
+    Integer::Integer(const Integer &b) {
+        value = b.getValue();
+    }
 
-Integer Integer::operator+(const Integer& b) const {
-    return Integer(getValue() + b.getValue());
-}
+    Integer Integer::gcd(Integer a, Integer b) {
+        //TODO does this work for negative values??
+        a.setValue(abs(a.getValue()));
+        b.setValue(abs(b.getValue()));
+        if (a.getValue() == 0) {
+            return b;
+        } else if (b.getValue() == 0) {
+            return a;
+        }
+        Integer remainder = a % b;
+        return gcd(b, remainder);
+    }
 
-Integer Integer::operator*(const Integer &b) const {
-    return Integer(getValue() * b.getValue());
-}
+    int Integer::getValue() const {
+        return value;
+    }
 
-Integer Integer::operator-(const Integer &b) const {
-    return Integer(getValue() - b.getValue());
-}
+    Integer Integer::operator+(const Integer &b) const {
+        return Integer(getValue() + b.getValue());
+    }
 
-Integer Integer::operator/(const Integer &b) const {
-    return Integer(getValue() /  b.getValue());
-}
+    Integer Integer::operator*(const Integer &b) const {
+        return Integer(getValue() * b.getValue());
+    }
 
-Integer Integer::operator%(const Integer &b) const {
-    return Integer(getValue() % b.getValue());
-}
+    Integer Integer::operator-(const Integer &b) const {
+        return Integer(getValue() - b.getValue());
+    }
 
-Integer Integer::operator+=(const Integer &b) {
-    *this=Integer(*this+b);
-    return *this;
-}
+    Integer Integer::operator/(const Integer &b) const {
+        return Integer(getValue() / b.getValue());
+    }
 
-Integer Integer::operator*=(const Integer &b) {
-    *this = Integer(*this * b);
-    return *this;
-}
+    Integer Integer::operator%(const Integer &b) const {
+        return Integer(getValue() % b.getValue());
+    }
 
-Integer Integer::operator-=(const Integer &b) {
-    *this = Integer(*this-b);
-    return *this;
-}
+    Integer Integer::operator+=(const Integer &b) {
+        *this = Integer(*this + b);
+        return *this;
+    }
 
-Integer Integer::operator/=(const Integer &b) {
-    *this = Integer(*this/b);
-    return *this;
-}
+    Integer Integer::operator*=(const Integer &b) {
+        *this = Integer(*this * b);
+        return *this;
+    }
 
-Integer Integer::operator%=(const Integer &b) {
-    *this = Integer(*this%b);
-    return *this;
-}
+    Integer Integer::operator-=(const Integer &b) {
+        *this = Integer(*this - b);
+        return *this;
+    }
 
-bool Integer::operator==(const Integer &b) const {
-    return getValue() == b.getValue();
-}
+    Integer Integer::operator/=(const Integer &b) {
+        *this = Integer(*this / b);
+        return *this;
+    }
 
-bool Integer::operator!=(const Integer &b) const{
-    return !(*this==b);
-}
+    Integer Integer::operator%=(const Integer &b) {
+        *this = Integer(*this % b);
+        return *this;
+    }
 
-bool Integer::operator<=(const Integer &b) const {
-    return (*this==b) || (*this<b);
-}
+    bool Integer::operator==(const Integer &b) const {
+        return getValue() == b.getValue();
+    }
 
-bool Integer::operator>=(const Integer &b) const {
-    return (*this==b) || (*this>b);
-}
+    bool Integer::operator!=(const Integer &b) const {
+        return !(*this == b);
+    }
 
-bool Integer::operator<(const Integer &b) const {
-    return getValue() < b.getValue();
-}
+    bool Integer::operator<=(const Integer &b) const {
+        return (*this == b) || (*this < b);
+    }
 
-bool Integer::operator>(const Integer &b) const {
-    return getValue() > b.getValue();
-}
+    bool Integer::operator>=(const Integer &b) const {
+        return (*this == b) || (*this > b);
+    }
 
-Integer Integer::operator-() const {
-    return Integer(-getValue());
-}
+    bool Integer::operator<(const Integer &b) const {
+        return getValue() < b.getValue();
+    }
 
-Integer Integer::operator+() const {
-    return Integer(+getValue());
-}
+    bool Integer::operator>(const Integer &b) const {
+        return getValue() > b.getValue();
+    }
 
-std::ostream& operator<<(std::ostream &output, Integer &b) {
-    output << b.getValue() << std::endl;
-    return output;
-}
+    Integer Integer::operator-() const {
+        return Integer(-getValue());
+    }
 
-std::istream& operator>>(std::istream &input, Integer &b) {
-    input >> b.value;
-    return input;
-}
+    Integer Integer::operator+() const {
+        return Integer(+getValue());
+    }
 
-void Integer::setValue(int val) {
-    value = val;
+    std::ostream &operator<<(std::ostream &output, Integer &b) {
+        output << b.getValue() << std::endl;
+        return output;
+    }
+
+    std::istream &operator>>(std::istream &input, Integer &b) {
+        input >> b.value;
+        return input;
+    }
+
+    void Integer::setValue(int val) {
+        value = val;
+    }
+
+    Integer& Integer::operator=(const Integer& i) {
+        this->setValue(i.getValue());
+        return *this;
+    }
 }
 
