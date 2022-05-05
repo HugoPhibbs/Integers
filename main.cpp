@@ -10,7 +10,7 @@ int main() {
     Rational x;
 
     Rational imp1 = Rational(Integer(1), Integer(3));
-    Rational imp2 = Rational(Integer(2), Integer(5));
+    Rational imp2 = Rational(Integer(8), Integer(5));
     imp1/=imp2;
     std::cout << imp1;
 
