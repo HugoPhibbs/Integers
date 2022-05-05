@@ -95,7 +95,7 @@ namespace cosc326 {
         Rational a = lhs.convertToImprop();
         Rational b = rhs.convertToImprop();
         Rational temp;
-        Integer tempNum = (rhs.num * lhs.den) + (rhs.den *lhs.num);
+        Integer tempNum = ((lhs.num * rhs.den) + (rhs.num * lhs.den));
         Integer tempDen = rhs.den * lhs.den;
         temp.num = tempNum;
         temp.den = tempDen;
@@ -127,14 +127,14 @@ namespace cosc326 {
         Rational a = lhs.convertToImprop();
         Rational b = rhs.convertToImprop();
         Rational temp;
-        temp.num = lhs.num * rhs.den;
-        temp.den = lhs.den * rhs.num;
+        temp.den = b.num * a.den;
+        temp.num = b.den * a.num;
         return temp;
 
     }
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
-        Rational temp = i.convertToImprop();
+        Rational temp = i;
         os << temp.num << '/' << temp.den;
         return os;
     }
@@ -240,7 +240,8 @@ namespace cosc326 {
     }
 
     Rational Rational::convertToImprop() const {
-        if (this->whole == Integer(0)){
+        return *this;
+       /* if (this->whole == Integer(0)){
             return *this;
         } else {
             Rational temp;
@@ -249,7 +250,7 @@ namespace cosc326 {
             temp.whole = Integer(0);
             return temp;
         }
-
+*/
     }
 };
 
