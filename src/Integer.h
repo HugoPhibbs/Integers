@@ -247,13 +247,13 @@ namespace cosc326 {
          * Assignment operator
          *
          * @param i Integer to be assigned to this integer
-         * @return
+         * @return this Integer
          */
         Integer& operator=(const Integer& i);
 
         /**
          * Returns a string representation of this Integer
-         * @return
+         * @return string as described
          */
         std::string representation() const;
     };
