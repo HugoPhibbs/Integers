@@ -243,8 +243,19 @@ namespace cosc326 {
          */
         void setValue(int val);
 
-
+        /**
+         * Assignment operator
+         *
+         * @param i Integer to be assigned to this integer
+         * @return this Integer
+         */
         Integer& operator=(const Integer& i);
+
+        /**
+         * Returns a string representation of this Integer
+         * @return string as described
+         */
+        std::string representation() const;
     };
 }
 #endif //INTEGERS_INTEGER_H
