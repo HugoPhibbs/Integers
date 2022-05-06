@@ -3,6 +3,10 @@
 //
 
 #include "Integer.h"
+#include <string>
+
+using namespace std;
+
 namespace cosc326 {
     Integer::Integer() = default;
 
@@ -131,6 +135,10 @@ namespace cosc326 {
     Integer& Integer::operator=(const Integer& i) {
         this->setValue(i.getValue());
         return *this;
+    }
+
+    std::string Integer::representation() const {
+        return to_string(value);
     }
 }
 
