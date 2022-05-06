@@ -137,7 +137,7 @@ namespace cosc326 {
         return *this;
     }
 
-    std::string Integer::representation() const {
+    std::string Integer::repr() const {
         return to_string(value);
     }
 }

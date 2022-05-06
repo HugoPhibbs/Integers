@@ -255,7 +255,7 @@ namespace cosc326 {
          * Returns a string representation of this Integer
          * @return string as described
          */
-        std::string representation() const;
+        std::string repr() const;
     };
 }
 #endif //INTEGERS_INTEGER_H
