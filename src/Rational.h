@@ -44,11 +44,12 @@ namespace cosc326 {
 
         Rational convertToImprop() const;
         Rational toWholeForm() const;
-
-    private:
-        std::string toString() const;
-        // Can add internal storage or methods here
+        Rational toString() const;
         Rational getValue() const;
+    private:
+       // Rational toString() const;
+        // Can add internal storage or methods here
+        //Rational getValue() const;
 
 
     };
