@@ -25,7 +25,6 @@ namespace cosc326 {
             std::string wholeS = str.substr(0, foundDot);
             std::string num = str.substr(foundDot+1, foundSlash - foundDot-1);
             std::string den = str.substr(foundSlash+1, str.length()+1);
-
             int numberW = stoi(wholeS);
             int numberN = stoi(num);
             int numberD = stoi(den);
@@ -105,7 +104,7 @@ namespace cosc326 {
         Rational a = r.convertToImprop();
         *this = Rational(*this-r);
         return *this;
-        //implement simplfy
+
 
     }
 
@@ -115,21 +114,18 @@ namespace cosc326 {
         return *this;
     }
 
-    Rational &Rational::operator/=(const Rational &r) { //need to ask for help on this
+    Rational &Rational::operator/=(const Rational &r) {
         Rational a = r.convertToImprop();
         *this = Rational(*this/r);
         return *this;
     }
 
     Rational operator+(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
         Rational temp;
         Integer tempNum = ((lhs.num * rhs.den) + (rhs.num * lhs.den));
         Integer tempDen = rhs.den * lhs.den;
         temp.num = tempNum;
         temp.den = tempDen;
-        // to be implemented simplify(temp)
         return temp.simplify();
     }
 
@@ -145,7 +141,6 @@ namespace cosc326 {
         temp = temp.convertToImprop();
         temp.num = lhs.num * rhs.num;
         temp.den = lhs.den * rhs.den;
-        //simplify to he implemented
         return temp.simplify();
     }
 
@@ -158,16 +153,24 @@ namespace cosc326 {
     }
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
+        std::string s;
         Rational temp = i.toWholeForm();
         if (temp.den == temp.num) {
-            std::string s = "1";
+            s = "1";
             os << s;
-        } else if (temp.whole == Integer(0)) {
-
-            os << temp.num << '/' << temp.den;
+        } else if(temp.num == Integer(0)){
+            s = temp.whole.repr();
+            os << s;
+        }
+        else if (temp.whole == Integer(0)) {
+            s = temp.num.repr() + "/" + temp.den.repr();
+            os << s;
         } else {
-
-            os << temp.whole << "." << temp.num << "/" << temp.den;
+            std::string n = temp.num.repr();
+            int nInt = stoi(n);
+            temp.num = Integer(abs(nInt));
+            s = temp.whole.repr() + "." + temp.num.repr()+ "/" + temp.den.repr();
+            os << s;
         }
         return os;
     }
@@ -178,8 +181,6 @@ namespace cosc326 {
     }
 
     bool operator<(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
         Integer temp1 = lhs.num * rhs.den;
         Integer temp2 = lhs.den * rhs.num;
         if (temp1 < temp2) {
@@ -190,8 +191,7 @@ namespace cosc326 {
     }
 
     bool operator>(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
+
         Integer temp1 = lhs.num * rhs.den;
         Integer temp2 = lhs.den * rhs.num;
         if (temp1 > temp2) {
@@ -202,8 +202,7 @@ namespace cosc326 {
     }
 
     bool operator<=(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
+
         if ((lhs < rhs) || (lhs == rhs)) {
             return true;
         } else {
@@ -212,8 +211,7 @@ namespace cosc326 {
     }
 
     bool operator>=(const Rational &lhs, const Rational &rhs) { //look into this???
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
+
         if ((lhs > rhs) || (lhs == rhs)) {
             return true;
         } else {
@@ -222,8 +220,7 @@ namespace cosc326 {
     }
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
+
         if (lhs / rhs == Rational(0)) {
             return true;
         } else {
@@ -232,8 +229,7 @@ namespace cosc326 {
     }
 
     bool operator!=(const Rational &lhs, const Rational &rhs) {
-        Rational a = lhs.convertToImprop();
-        Rational b = rhs.convertToImprop();
+
         if ((lhs.simplify() / rhs.simplify()) != Rational(0)) {
             return true;
         } else {
@@ -241,9 +237,13 @@ namespace cosc326 {
         }
     }
     Rational Rational::toWholeForm() const {
-        Integer numer =(this->num);
+        std::string n = this->num.repr();
+        std::string d = this->den.repr();
+        int dInt = stoi(d);
+        int nInt = stoi(n);
+        Integer numer = (this->num);
         Integer denom = Integer(this->den);
-        if(numer > denom) {
+        if(abs(nInt) > abs(dInt)) {
             Integer iwhole = this->num / this->den;
             Integer remain = this->num % this->den;
             Rational temp;
@@ -266,30 +266,6 @@ namespace cosc326 {
         temp.den = den/gcd;
         temp.num = num/gcd;
         return temp;
-        //Rational newRat = Rational(this->num /old, this->den/old);
-
-
-/*
-        Rational temp;
-        Integer gcd;
-        gcd = Integer(gcd.gcd(this->den, this->num));
-        temp.den = den/gcd;
-        temp.num = num/gcd;
-        if(temp.num <= temp.den){
-            if(temp.num == temp.den) {
-                temp.whole += Integer(1);
-                temp.den = Integer(0);
-                temp.num = Integer(0);
-            } else {
-
-
-            }
-
-
-        }
-
-        return *this;
-*/
     }
     Rational Rational::getValue() const {
         Rational temp;
@@ -308,6 +284,9 @@ namespace cosc326 {
             temp.whole = Integer(0);
             return temp;
         }
+    }
+    Rational Rational::toString() const {
+        return *this;
     }
 };
 
