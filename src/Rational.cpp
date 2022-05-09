@@ -74,9 +74,7 @@ namespace cosc326 {
 
     }
 
-    Rational::~Rational() {
-
-    }
+    Rational::~Rational() = default;
 
     Rational &Rational::operator=(const Rational &r) {
         Rational a = r.convertToImprop();
@@ -138,7 +136,6 @@ namespace cosc326 {
 
     Rational operator*(const Rational &lhs, const Rational &rhs) {
         Rational temp;
-        temp = temp.convertToImprop();
         temp.num = lhs.num * rhs.num;
         temp.den = lhs.den * rhs.den;
         return temp.simplify();
@@ -146,8 +143,8 @@ namespace cosc326 {
 
     Rational operator/(const Rational &lhs, const Rational &rhs) {
         Rational temp;
-        temp.den = rhs.num * lhs.den;
-        temp.num = rhs.den * lhs.num;
+        temp.num = lhs.num * rhs.den;
+        temp.den = lhs.den * rhs.num;
         return temp.simplify();
 
     }
@@ -176,7 +173,7 @@ namespace cosc326 {
     }
 
     std::istream &operator>>(std::istream &is, Rational &i) {
-        is >> i.den >> i.num;
+        is >> i.den >> i.num >>i.whole;
         return is;
     }
 
@@ -220,20 +217,20 @@ namespace cosc326 {
     }
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
-
-        if (lhs / rhs == Rational(0)) {
+        Rational temp = lhs/rhs;
+        if (temp.num == Integer(1) && temp.den == Integer(1)) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     bool operator!=(const Rational &lhs, const Rational &rhs) {
 
-        if ((lhs.simplify() / rhs.simplify()) != Rational(0)) {
+        if (!(lhs == rhs)) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
     Rational Rational::toWholeForm() const {
