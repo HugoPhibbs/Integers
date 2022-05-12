@@ -13,7 +13,7 @@ namespace cosc326 {
     class Rational {
 
     public:
-        Integer whole = Integer();
+
         Integer num = Integer();
         Integer den = Integer();
         Rational();
@@ -42,16 +42,17 @@ namespace cosc326 {
         // You may need to make some other functions friends, but do so sparingly.
         friend bool operator<(const Rational& lhs, const Rational& rhs);
 
-        Rational convertToImprop() const;
-        Rational toWholeForm() const;
+
         Rational toString() const;
         Rational getValue() const;
+
     private:
        // Rational toString() const;
         // Can add internal storage or methods here
         //Rational getValue() const;
 
 
+        Rational convertToImproper(Integer w, Integer n, Integer d);
     };
 
     // Binary operators
