@@ -6,11 +6,11 @@ using namespace cosc326;
 int main() {
 
     Rational imp = Rational("2/4");
-    Rational temp = Rational("10.2/5");
-    if(temp != imp) {
-        std::cout << imp * temp;
+    Rational temp = Rational("0.2/5");
 
-    }
+        std::cout << temp;
+
+
     return 0;
 };
 
