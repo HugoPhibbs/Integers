@@ -244,7 +244,24 @@ namespace cosc326 {
 
 
     Rational Rational::toString() const {
-        return *this;
+        std::string s;
+        Integer whole, numerator, denomnator;
+        int x = stoi(this->num.repr());
+        int g = stoi(this->den.repr());
+        if (abs(x) > abs(g)) {
+            whole = this->num / this->den;
+            int p = abs(stoi(this->num.repr()) % stoi(this->den.repr()));
+            numerator = Integer(p);
+            denomnator = Integer(abs(stoi(this->den.repr())));
+            s = whole.repr() + "." + numerator.repr() + "/" + denomnator.repr();
+            return s;
+        } else if (abs(stoi(this->num.repr())) == abs(stoi(this->den.repr()))) {
+            s = "1";
+            return s;
+        } else {
+            s = this->num.repr() + "/" + this->den.repr();
+            return s;
+        }
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
