@@ -4,6 +4,7 @@
 
 #include "Integer.h"
 #include <string>
+using namespace std;
 
 using namespace std;
 
@@ -139,6 +140,10 @@ namespace cosc326 {
 
     std::string Integer::repr() const {
         return to_string(value);
+    }
+
+    Integer Integer::absValue() const {
+        return Integer(abs(this->value)/this->value);
     }
 }
 

@@ -256,6 +256,13 @@ namespace cosc326 {
          * @return string as described
          */
         std::string repr() const;
+
+        /**
+         * Returns the absolute value of this Integer
+         *
+         * @return a new Integer object
+         */
+        Integer absValue() const;
     };
 }
 #endif //INTEGERS_INTEGER_H

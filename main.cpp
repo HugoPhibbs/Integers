@@ -5,12 +5,12 @@
 using namespace cosc326;
 int main() {
 
-    Rational imp = Rational("1.2/4");
-    Rational temp = Rational("-1.1/4");
-    if(temp != imp){
-        std::cout << imp/temp; // should return -1.1/5 but return -2
-    }
+    Rational imp = Rational("2/4");
+    Rational temp = Rational("10.2/5");
+    if(temp != imp) {
+        std::cout << imp * temp;
 
+    }
     return 0;
 };
 
