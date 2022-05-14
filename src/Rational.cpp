@@ -205,7 +205,7 @@ namespace cosc326 {
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
         Rational temp = lhs/rhs;
-        if (temp.num == Integer(1) && temp.den == Integer(1)) {
+        if ((abs(stoi(temp.num.repr()))) == 1 && (abs(stoi(temp.den.repr())) == 1)) {
             return true;
         } else {
             return false;
@@ -243,7 +243,7 @@ namespace cosc326 {
 
 
 
-    Rational Rational::toString() const {
+    std::string Rational::toString() const {
         std::string s;
         Integer whole, numerator, denomnator;
         int x = stoi(this->num.repr());

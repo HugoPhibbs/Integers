@@ -43,7 +43,7 @@ namespace cosc326 {
         friend bool operator<(const Rational& lhs, const Rational& rhs);
 
 
-        Rational toString() const;
+        std::string toString() const;
         Rational getValue() const;
 
     private:
