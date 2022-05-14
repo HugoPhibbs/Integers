@@ -9,6 +9,9 @@
 namespace cosc326 {
 
     class RationalTest : public ::testing::Test {
+
+
+
     protected:
         Rational a = Rational(Integer(1), Integer(2));
         Rational b = Rational(Integer(3));
@@ -98,4 +101,5 @@ namespace cosc326 {
         EXPECT_EQ(false, b < a);
         EXPECT_EQ(false, a != a);
     };
-}
+
+};
