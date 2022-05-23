@@ -233,10 +233,10 @@ namespace cosc326 {
 
     Rational Rational::simplify() const {
         Rational temp;
-        Integer gcd;
-        gcd = Integer(gcd.gcd(this->den, this->num));
-        temp.den = den/gcd;
-        temp.num = num/gcd;
+        Integer gcdt;
+        gcdt = Integer(gcd(this->den, this->num));
+        temp.den = den/gcdt;
+        temp.num = num/gcdt;
         return temp;
     }
     Rational Rational::getValue() const {

@@ -33,8 +33,7 @@ int main() {
         cout << "\n- working";
     }
 */
-    Rational t = Rational(Integer(965286), Integer(1));
-    cout << t;
+    std::cout<< gcd(Integer(10), Integer(4))<<"\n";
     return 0;
 };
 
