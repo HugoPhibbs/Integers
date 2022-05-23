@@ -143,7 +143,11 @@ namespace cosc326 {
         Integer whole, numerator, denomnator;
         int x = stoi(i.num.repr());
         int g = stoi(i.den.repr());
-        if (abs(x) > abs(g)) {
+        if(i.den == Integer(1)) {
+            Integer g = Integer(i.num);
+            s = g.repr();
+            os << s;
+        }else if (abs(x) > abs(g)) {
             whole = i.num / i.den;
             int p = abs(stoi(i.num.repr()) % stoi(i.den.repr()));
             numerator = Integer(p);
@@ -152,12 +156,12 @@ namespace cosc326 {
             os << s;
         } else if (abs(stoi(i.num.repr())) == abs(stoi(i.den.repr()))) {
             os << "1";
+
         } else {
             s = i.num.repr() + "/" + i.den.repr();
             os << s;
         }
         return  os;
-    }
 
     std::istream &operator>>(std::istream &is, Rational &i) {
         is >> i.den >> i.num;
