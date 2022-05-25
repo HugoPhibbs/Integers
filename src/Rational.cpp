@@ -4,8 +4,8 @@
 
 #include <string>
 #include <ostream>
-#include <iostream>
 #include "Rational.h"
+#include "Integer.h"
 #include <vector>
 
 namespace cosc326 {
@@ -22,8 +22,8 @@ namespace cosc326 {
         std::size_t foundSlash = str.find("/");
         if (foundDot != std::string::npos) {
             std::string wholeS = str.substr(0, foundDot);
-            std::string num = str.substr(foundDot+1, foundSlash - foundDot-1);
-            std::string den = str.substr(foundSlash+1, str.length()+1);
+            std::string num = str.substr(foundDot + 1, foundSlash - foundDot - 1);
+            std::string den = str.substr(foundSlash + 1, str.length() + 1);
             int numberW = stoi(wholeS);
             int numberN = stoi(num);
             int numberD = stoi(den);
@@ -31,12 +31,12 @@ namespace cosc326 {
             this->den = temp.den;
             this->num = temp.num;
         } else {
-                std::string num = str.substr(0, foundSlash);
-                std::string den = str.substr(foundSlash+1, foundSlash-str.length()+1);
-                int numberN = stoi(num);
-                int numberD = stoi(den);
-                this->den = Integer(numberD);
-                this->num = Integer(numberN);
+            std::string num = str.substr(0, foundSlash);
+            std::string den = str.substr(foundSlash + 1, foundSlash - str.length() + 1);
+            int numberN = stoi(num);
+            int numberD = stoi(den);
+            this->den = Integer(numberD);
+            this->num = Integer(numberN);
         }
 
     };
@@ -57,7 +57,7 @@ namespace cosc326 {
     }
 
     Rational::Rational(const Integer &a, const Integer &b, const Integer &c) {
-        Rational g = convertToImproper(a,b,c);
+        Rational g = convertToImproper(a, b, c);
         this->den = g.den;
         this->num = g.num;
 
@@ -66,7 +66,7 @@ namespace cosc326 {
     Rational::~Rational() = default;
 
     Rational &Rational::operator=(const Rational &r) {
-      //  Rational a = r.convertToImprop();
+        //  Rational a = r.convertToImprop();
         this->num = r.num;
         this->den = r.den;
         return *this;
@@ -81,29 +81,29 @@ namespace cosc326 {
     }
 
     Rational &Rational::operator+=(const Rational &r) {
-      //  Rational a = r.convertToImprop();
-        *this = Rational(*this+r);
+        //  Rational a = r.convertToImprop();
+        *this = Rational(*this + r);
         return *this;
     }
 
 
     Rational &Rational::operator-=(const Rational &r) {
-      //  Rational a = r.convertToImprop();
-        *this = Rational(*this-r);
+        //  Rational a = r.convertToImprop();
+        *this = Rational(*this - r);
         return *this;
 
 
     }
 
     Rational &Rational::operator*=(const Rational &r) {
-      //  Rational a = r.convertToImprop();
-        *this = Rational(*this*r);
+        //  Rational a = r.convertToImprop();
+        *this = Rational(*this * r);
         return *this;
     }
 
     Rational &Rational::operator/=(const Rational &r) {
-       // Rational a = r.convertToImprop();
-        *this = Rational(*this/r);
+        // Rational a = r.convertToImprop();
+        *this = Rational(*this / r);
         return *this;
     }
 
@@ -156,7 +156,7 @@ namespace cosc326 {
             s = i.num.repr() + "/" + i.den.repr();
             os << s;
         }
-        return  os;
+        return os;
     }
 
     std::istream &operator>>(std::istream &is, Rational &i) {
@@ -204,7 +204,7 @@ namespace cosc326 {
     }
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
-        Rational temp = lhs/rhs;
+        Rational temp = lhs / rhs;
         if ((abs(stoi(temp.num.repr()))) == 1 && (abs(stoi(temp.den.repr())) == 1)) {
             return true;
         } else {
@@ -222,25 +222,21 @@ namespace cosc326 {
     }
 
 
-
-
-
-
     Rational Rational::simplify() const {
         Rational temp;
         Integer gcd;
         gcd = Integer(gcd.gcd(this->den, this->num));
-        temp.den = den/gcd;
-        temp.num = num/gcd;
+        temp.den = den / gcd;
+        temp.num = num / gcd;
         return temp;
     }
+
     Rational Rational::getValue() const {
         Rational temp;
         temp.den = this->den;
         temp.num = this->num;
         return temp;
     }
-
 
 
     std::string Rational::toString() const {
@@ -265,13 +261,13 @@ namespace cosc326 {
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
-        if(w == Integer(0)){
-            return Rational(n,d);
-        } else{
+        if (w == Integer(0)) {
+            return Rational(n, d);
+        } else {
             Rational temp;
             temp.den = d;
             Integer wholeSign = w.absValue();
-            temp.num = (w*d) + wholeSign * n;
+            temp.num = (w * d) + wholeSign * n;
             return temp;
         }
     }

@@ -3,121 +3,133 @@
 //
 
 #include "Integer.h"
+#include <cstdlib>
 #include <string>
-using namespace std;
 
-using namespace std;
+/*
+ * Some Sources that we can use:
+ *
+ * Division:
+ * https://www.geeksforgeeks.org/divide-large-number-represented-string/?fbclid=IwAR0nBCvBETTIQANRESw_YhBY9eQqThO-NE8Vu53xFQg5r_8Tfma8_hyRKY0
+ *
+ * Addition:
+ * https://www.geeksforgeeks.org/sum-two-large-numbers/
+ *
+ * Subtraction:
+ * https://www.geeksforgeeks.org/difference-of-two-large-numbers/ this finds difference, we can just switch sign
+ *
+ * Multiplication:
+ * https://www.geeksforgeeks.org/multiply-large-numbers-represented-as-strings/
+ */
+
 
 namespace cosc326 {
     Integer::Integer() = default;
 
-    Integer::Integer(const int val) {
-        value = val;
-    }
-
     Integer::~Integer() = default;
 
     Integer::Integer(const std::string &digits) {
-        value = std::stoi(digits);
+        value = digits;
     }
 
     Integer::Integer(const Integer &b) {
         value = b.getValue();
     }
 
-    Integer Integer::gcd(Integer a, Integer b) {
-        //TODO does this work for negative values??
-        a.setValue(abs(a.getValue()));
-        b.setValue(abs(b.getValue()));
-        if (a.getValue() == 0) {
-            return b;
-        } else if (b.getValue() == 0) {
-            return a;
-        }
-        Integer remainder = a % b;
-        return gcd(b, remainder);
-    }
-
-    int Integer::getValue() const {
+    std::string Integer::getValue() const {
         return value;
     }
 
-    Integer Integer::operator+(const Integer &b) const {
-        return Integer(getValue() + b.getValue());
+    std::string Integer::repr() const {
+        return value; // FIXME
     }
 
-    Integer Integer::operator*(const Integer &b) const {
-        return Integer(getValue() * b.getValue());
+    Integer Integer::absValue() const {
+        return Integer(); // FIXME
     }
 
-    Integer Integer::operator-(const Integer &b) const {
-        return Integer(getValue() - b.getValue());
+    void Integer::setValue(std::string val) {
+        value = val; // FIXME
     }
 
-    Integer Integer::operator/(const Integer &b) const {
-        return Integer(getValue() / b.getValue());
+    Integer operator/(const Integer &lhs, const Integer &rhs) {
+        std::string ans;
+        std::string number = lhs.getValue();
+        unsigned long long divisor = strtoull(rhs.getValue().c_str(), nullptr, 10);
+        int idx = 0;
+        unsigned long long temp = number[idx] - '0';
+        while (temp < divisor) {
+            temp = temp * 10 + (number[++idx] - '0');
+        }
+        while (number.size() > idx) {
+            ans += std::to_string((temp / divisor) + '0');
+            temp = (temp % divisor) * 10 + number[++idx] - '0';
+        }
+        if (ans.length() == 0)
+            return Integer("0");
+        return Integer(ans);
     }
 
-    Integer Integer::operator%(const Integer &b) const {
-        return Integer(getValue() % b.getValue());
+    Integer operator+(const Integer& lhs, const Integer& rhs) {
+        std::string str1 = lhs.getValue();
+        std::string str2 = rhs.getValue();
+        // Before proceeding further, make sure length
+        // of str2 is larger.
+        if (str1.length() > str2.length())
+            swap(str1, str2);
+
+        // Take an empty string for storing result
+        std:: string result = "";
+
+        // Calculate length of both string
+        int n1 = str1.length(), n2 = str2.length();
+
+        // Reverse both of strings
+        reverse(str1.begin(), str1.end()); // FIXME
+        reverse(str2.begin(), str2.end());
+
+        int carry = 0;
+        for (int i=0; i<n1; i++)
+        {
+            // Do school mathematics, compute sum of
+            // current digits and carry
+            int sum = ((str1[i]-'0')+(str2[i]-'0')+carry);
+            result.push_back(sum % 10 + '0');
+
+            // Calculate carry for next step
+            carry = sum/10;
+        }
+
+        // Add remaining digits of larger number
+        for (int i=n1; i<n2; i++)
+        {
+            int sum = ((str2[i]-'0')+carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum/10;
+        }
+
+        // Add remaining carry
+        if (carry)
+            result.push_back(carry + '0');
+
+        // reverse resultant string
+        reverse(result.begin(), result.end());
+
+        return Integer(result);
     }
 
-    Integer Integer::operator+=(const Integer &b) {
-        *this = Integer(*this + b);
-        return *this;
+    Integer operator-(const Integer& lhs, const Integer& rhs) {
+        return lhs;
     }
 
-    Integer Integer::operator*=(const Integer &b) {
-        *this = Integer(*this * b);
-        return *this;
+    Integer operator*(const Integer& lhs, const Integer& rhs) {
+        return lhs;
     }
 
-    Integer Integer::operator-=(const Integer &b) {
-        *this = Integer(*this - b);
-        return *this;
+    Integer operator%(const Integer& lhs, const Integer& rhs) {
+        return lhs;
     }
 
-    Integer Integer::operator/=(const Integer &b) {
-        *this = Integer(*this / b);
-        return *this;
-    }
-
-    Integer Integer::operator%=(const Integer &b) {
-        *this = Integer(*this % b);
-        return *this;
-    }
-
-    bool Integer::operator==(const Integer &b) const {
-        return getValue() == b.getValue();
-    }
-
-    bool Integer::operator!=(const Integer &b) const {
-        return !(*this == b);
-    }
-
-    bool Integer::operator<=(const Integer &b) const {
-        return (*this == b) || (*this < b);
-    }
-
-    bool Integer::operator>=(const Integer &b) const {
-        return (*this == b) || (*this > b);
-    }
-
-    bool Integer::operator<(const Integer &b) const {
-        return getValue() < b.getValue();
-    }
-
-    bool Integer::operator>(const Integer &b) const {
-        return getValue() > b.getValue();
-    }
-
-    Integer Integer::operator-() const {
-        return Integer(-getValue());
-    }
-
-    Integer Integer::operator+() const {
-        return Integer(+getValue());
-    }
 
     std::ostream &operator<<(std::ostream &output, Integer &b) {
         output << b.getValue() << std::endl;
@@ -125,12 +137,8 @@ namespace cosc326 {
     }
 
     std::istream &operator>>(std::istream &input, Integer &b) {
-        input >> b.value;
+        input >> b.getValue();
         return input;
-    }
-
-    void Integer::setValue(int val) {
-        value = val;
     }
 
     Integer& Integer::operator=(const Integer& i) {
@@ -138,12 +146,68 @@ namespace cosc326 {
         return *this;
     }
 
-    std::string Integer::repr() const {
-        return to_string(value);
+    Integer &Integer::operator/=(const Integer &i) {
+        return <#initializer#>;
     }
 
-    Integer Integer::absValue() const {
-        return Integer(abs(this->value)/this->value);
+    Integer &Integer::operator%=(const Integer &i) {
+        return <#initializer#>;
+    }
+
+    Integer &Integer::operator*=(const Integer &i) {
+        return <#initializer#>;
+    }
+
+    Integer &Integer::operator-=(const Integer &i) {
+        return <#initializer#>;
+    }
+
+    Integer &Integer::operator+=(const Integer &i) {
+        return <#initializer#>;
+    }
+
+    bool operator<(const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    bool operator> (const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    bool operator<=(const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    bool operator>=(const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    bool operator==(const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    bool operator!=(const Integer& lhs, const Integer& rhs) {
+        return true;
+    }
+
+    Integer Integer::operator+() const {
+        return Integer();
+    }
+
+    Integer Integer::operator-() const {
+        return Integer();
+    }
+
+    bool Integer::isPositive() const {
+        return strcmp(value.at(0), &"0"); // FIXME
+    }
+
+    bool operator<(const Integer &lhs, const Integer &rhs) {
+        return false;
+    }
+
+    Integer gcd(const Integer& a, const Integer& b) {
+        return a;
     }
 }
 
