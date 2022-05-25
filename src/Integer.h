@@ -15,6 +15,9 @@
 #include <string>
 
 namespace cosc326 {
+
+
+
 /**
  * Class to represent an Integer
  */
@@ -58,16 +61,7 @@ namespace cosc326 {
          */
         explicit Integer(int val);
 
-        /**
-         * Finds the greatest common divisor (gcd) of two Integers a and b
-         *
-         * Uses the Euclidean algorithm
-         *
-         * @param a Integer as described
-         * @param b Integer as described
-         * @return Integer object as described
-         */
-        static Integer gcd(Integer a, Integer b);
+
 
         /**
          * The unary + operator
@@ -263,6 +257,23 @@ namespace cosc326 {
          * @return a new Integer object
          */
         Integer absValue() const;
+
+
+
+
+
     };
+
+
+    /**
+    * Finds the greatest common divisor (gcd) of two Integers a and b
+    *
+    * Uses the Euclidean algorithm
+    *
+    * @param a Integer as described
+    * @param b Integer as described
+    * @return Integer object as described
+    */
+    Integer gcd(Integer a, Integer b);
 }
 #endif //INTEGERS_INTEGER_H

@@ -4,11 +4,13 @@
 
 #include "Integer.h"
 #include <string>
+
 using namespace std;
 
 using namespace std;
 
 namespace cosc326 {
+
     Integer::Integer() = default;
 
     Integer::Integer(const int val) {
@@ -25,18 +27,6 @@ namespace cosc326 {
         value = b.getValue();
     }
 
-    Integer Integer::gcd(Integer a, Integer b) {
-        //TODO does this work for negative values??
-        a.setValue(abs(a.getValue()));
-        b.setValue(abs(b.getValue()));
-        if (a.getValue() == 0) {
-            return b;
-        } else if (b.getValue() == 0) {
-            return a;
-        }
-        Integer remainder = a % b;
-        return gcd(b, remainder);
-    }
 
     int Integer::getValue() const {
         return value;
@@ -133,7 +123,7 @@ namespace cosc326 {
         value = val;
     }
 
-    Integer& Integer::operator=(const Integer& i) {
+    Integer &Integer::operator=(const Integer &i) {
         this->setValue(i.getValue());
         return *this;
     }
@@ -143,7 +133,21 @@ namespace cosc326 {
     }
 
     Integer Integer::absValue() const {
-        return Integer(abs(this->value)/this->value);
+        return Integer(abs(this->value) / this->value);
     }
+    Integer gcd(Integer a, Integer b) {
+        //TODO does this work for negative values??
+        a.setValue(abs(a.getValue()));
+        b.setValue(abs(b.getValue()));
+        if (a.getValue() == 0) {
+            return b;
+        } else if (b.getValue() == 0) {
+            return a;
+        }
+        Integer remainder = a % b;
+        return gcd(b, remainder);
+    }
+
+
 }
 
