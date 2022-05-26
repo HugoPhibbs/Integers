@@ -1,7 +1,7 @@
 //
 // Created by Hugo on 14/04/2022.
 //
-
+/*
 #include <string>
 #include <ostream>
 #include "Rational.h"
@@ -274,4 +274,4 @@ namespace cosc326 {
 };
 
 
-
+*/

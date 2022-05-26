@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 // Most compilers understand the once pragma, but just in case...
@@ -73,3 +74,4 @@ namespace cosc326 {
 }
 
 #endif
+*/

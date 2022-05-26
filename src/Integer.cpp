@@ -119,7 +119,51 @@ namespace cosc326 {
     }
 
     Integer operator-(const Integer& lhs, const Integer& rhs) {
-        return lhs;
+        std::string str1 = lhs.getValue();
+        std::string str2 = rhs.getValue();
+        // Before proceeding further, make sure length
+        // of str2 is larger.
+        if (str1.length() > str2.length())
+            swap(str1, str2);
+
+        // Take an empty string for storing result
+        std:: string result = "";
+
+        // Calculate length of both string
+        int n1 = str1.length(), n2 = str2.length();
+
+        // Reverse both of strings
+        reverse(str1.begin(), str1.end()); // FIXME
+        reverse(str2.begin(), str2.end());
+
+        int carry = 0;
+        for (int i=0; i<n1; i++)
+        {
+            // Do school mathematics, compute sum of
+            // current digits and carry
+            int sum = ((str1[i]-'0')- (str2[i]-'0')+carry);
+            result.push_back(sum % 10 + '0');
+
+            // Calculate carry for next step
+            carry = sum/10;
+        }
+
+        // Add remaining digits of larger number
+        for (int i=n1; i<n2; i++)
+        {
+            int sum = ((str2[i]-'0')+carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum/10;
+        }
+
+        // Add remaining carry
+        if (carry)
+            result.push_back(carry + '0');
+
+        // reverse resultant string
+        reverse(result.begin(), result.end());
+
+        return Integer(result);
     }
 
     Integer operator*(const Integer& lhs, const Integer& rhs) {
@@ -137,7 +181,8 @@ namespace cosc326 {
     }
 
     std::istream &operator>>(std::istream &input, Integer &b) {
-        input >> b.getValue();
+
+    //    input >> b.getValue();
         return input;
     }
 
@@ -202,12 +247,11 @@ namespace cosc326 {
         return strcmp(value.at(0), &"0"); // FIXME
     }
 
-    bool operator<(const Integer &lhs, const Integer &rhs) {
-        return false;
-    }
+
 
     Integer gcd(const Integer& a, const Integer& b) {
         return a;
     }
+
 }
 
