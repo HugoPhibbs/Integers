@@ -3,7 +3,7 @@ project(Integers)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Integers main.cpp src/Integer.cpp src/Integer.h src/Rational.cpp src/Rational.h)
+add_executable(Integers src/main.cpp src/Integer.cpp src/Integer.h src/Rational.cpp src/Rational.h)
 
 enable_testing()
 
