@@ -1,16 +1,13 @@
 //
 // Created by Hugo on 15/04/2022.
 //
-
+#include "../src/Integer.h"
 #include <gtest/gtest.h>
-#include "../src/Integer.cpp"
-#include "../src/Rational.cpp"
+#include "../src/Rational.h"
 
 namespace cosc326 {
 
     class RationalTest : public ::testing::Test {
-
-
 
     protected:
         Rational a = Rational(Integer(1), Integer(2));
