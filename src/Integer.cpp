@@ -78,6 +78,8 @@ namespace cosc326 {
     }
 
     Integer operator/(const Integer &lhs, const Integer &rhs) {
+        assert(rhs != ZERO);
+        // TODO what to do for division that results in a non integer value?
         if (lhs.isPositive() && rhs.isPositive()) {
             return Integer::divPositiveIntegers(lhs, rhs);
         } else if (lhs.isPositive() && !rhs.isPositive()) {
@@ -91,12 +93,12 @@ namespace cosc326 {
     Integer operator+(const Integer &lhs, const Integer &rhs) {
         if (lhs.isPositive() && rhs.isPositive()) {
             return cosc326::Integer::addPositiveIntegers(lhs, rhs);
-        } else if (!lhs.isPositive() && !rhs.isPositive()) {
-            return -cosc326::Integer::addPositiveIntegers(+lhs, +rhs);
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return -(rhs.absValue() - lhs.absValue());
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return rhs.absValue() - lhs.absValue();
+            return -(lhs.absValue() - rhs.absValue());
         }
-        return lhs.absValue() - rhs.absValue();
+        return -(lhs.absValue() + rhs.absValue());
     }
 
     /**
@@ -334,7 +336,7 @@ namespace cosc326 {
     }
 
     Integer operator%(const Integer &lhs, const Integer &rhs) {
-        return lhs;
+        return lhs; // TODO
     }
 
 
@@ -355,22 +357,27 @@ namespace cosc326 {
     }
 
     Integer &Integer::operator/=(const Integer &i) {
+        *this = *this / i;
         return *this;
     }
 
     Integer &Integer::operator%=(const Integer &i) {
+        *this = *this % i;
         return *this;
     }
 
     Integer &Integer::operator*=(const Integer &i) {
+        *this = (*this) * i;
         return *this;
     }
 
     Integer &Integer::operator-=(const Integer &i) {
+        *this = *this - i;
         return *this;
     }
 
     Integer &Integer::operator+=(const Integer &i) {
+        *this = *this + i;
         return *this;
     }
 
@@ -438,18 +445,18 @@ namespace cosc326 {
      *
      * Tries to account for edge cases that may mess things up. Eg -0 etc
      *
-     * @param value string for a integer value inputted by a user
+     * @param val string for a integer value inputted by a user
      * @return value parsed into a usable form
      */
-    std::string Integer::parseValue(std::string value) {
+    std::string Integer::parseValue(std::string val) {
         // TODO handle - 0 cases
-        assert(strIsInteger(value));
-        value = stripPositiveSign(value);
-        value = stripLeadingZeros(value);
-        if (strAbsValue(value) == "0"){
-            value = "0";
+        assert(strIsInteger(val));
+        val = stripPositiveSign(val);
+        val = stripLeadingZeros(val);
+        if (strAbsValue(val) == "0") {
+            val = "0";
         }
-        return value;
+        return val;
     }
 
     /**
@@ -459,16 +466,16 @@ namespace cosc326 {
      */
     std::string Integer::strAbsValue(std::string str) const {
         if (!strIsPositive(str)) {
-            value.substr(1);
+            return str.substr(1);
         }
         return str;
     }
 
-   /**
-    * Finds the absolute value of this Integer
-    *
-    * @return a new Integer object
-    */
+    /**
+     * Finds the absolute value of this Integer
+     *
+     * @return a new Integer object
+     */
     Integer Integer::absValue() const {
         return Integer(strAbsValue(value));
     }
@@ -589,7 +596,7 @@ namespace cosc326 {
      * @param b
      * @return
      */
-    Integer gcd(const Integer& a, const Integer &b) {
+    Integer gcd(const Integer &a, const Integer &b) {
         Integer a1 = a.absValue();
         Integer b1 = b.absValue();
         if (a1 == ZERO) {
