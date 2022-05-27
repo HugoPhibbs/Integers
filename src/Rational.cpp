@@ -1,7 +1,7 @@
 //
 // Created by Hugo on 14/04/2022.
 //
-/*
+
 #include <string>
 #include <ostream>
 #include "Rational.h"
@@ -12,7 +12,7 @@ namespace cosc326 {
 
     Rational::Rational() {
         num = Integer();
-        den = Integer(1);
+        den = Integer("1");
     }
 
     Rational::Rational(const std::string &str) {
@@ -24,19 +24,14 @@ namespace cosc326 {
             std::string wholeS = str.substr(0, foundDot);
             std::string num = str.substr(foundDot + 1, foundSlash - foundDot - 1);
             std::string den = str.substr(foundSlash + 1, str.length() + 1);
-            int numberW = stoi(wholeS);
-            int numberN = stoi(num);
-            int numberD = stoi(den);
-            temp = convertToImproper(Integer(numberW), Integer(numberN), Integer(numberD));
+            temp = convertToImproper(Integer(wholeS), Integer(num), Integer(den));
             this->den = temp.den;
             this->num = temp.num;
         } else {
             std::string num = str.substr(0, foundSlash);
             std::string den = str.substr(foundSlash + 1, foundSlash - str.length() + 1);
-            int numberN = stoi(num);
-            int numberD = stoi(den);
-            this->den = Integer(numberD);
-            this->num = Integer(numberN);
+            this->den = Integer(num);
+            this->num = Integer(den);
         }
 
     };
@@ -48,7 +43,7 @@ namespace cosc326 {
 
     Rational::Rational(const Integer &a) {
         this->num = a;
-        this->den = Integer(1);
+        this->den = Integer("1");
     }
 
     Rational::Rational(const Integer &a, const Integer &b) {
@@ -139,6 +134,7 @@ namespace cosc326 {
     }
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
+        /*
         std::string s;
         Integer whole, numerator, denomnator;
         int x = stoi(i.num.repr());
@@ -156,6 +152,7 @@ namespace cosc326 {
             s = i.num.repr() + "/" + i.den.repr();
             os << s;
         }
+        */
         return os;
     }
 
@@ -204,12 +201,15 @@ namespace cosc326 {
     }
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
+        /*
         Rational temp = lhs / rhs;
         if ((abs(stoi(temp.num.repr()))) == 1 && (abs(stoi(temp.den.repr())) == 1)) {
             return true;
         } else {
             return false;
         }
+        */
+        return false;
     }
 
     bool operator!=(const Rational &lhs, const Rational &rhs) {
@@ -223,12 +223,15 @@ namespace cosc326 {
 
 
     Rational Rational::simplify() const {
+        /*
         Rational temp;
         Integer gcd;
         gcd = Integer(gcd.gcd(this->den, this->num));
         temp.den = den / gcd;
         temp.num = num / gcd;
         return temp;
+        */
+        return Rational();
     }
 
     Rational Rational::getValue() const {
@@ -240,6 +243,7 @@ namespace cosc326 {
 
 
     std::string Rational::toString() const {
+        /*
         std::string s;
         Integer whole, numerator, denomnator;
         int x = stoi(this->num.repr());
@@ -258,9 +262,12 @@ namespace cosc326 {
             s = this->num.repr() + "/" + this->den.repr();
             return s;
         }
+        */
+        return "";
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
+        /*
         if (w == Integer(0)) {
             return Rational(n, d);
         } else {
@@ -270,8 +277,9 @@ namespace cosc326 {
             temp.num = (w * d) + wholeSign * n;
             return temp;
         }
+        */
+        return Rational();
     }
 };
 
 
-*/
