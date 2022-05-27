@@ -40,6 +40,20 @@ namespace cosc326 {
 
         void setValue(std::string val);
 
+        bool isPositive() const;
+
+        static Integer addPositiveIntegers(const Integer &lhs, const Integer& rhs);
+
+        static Integer mulPositiveIntegers(const Integer &lhs, const Integer& rhs);
+
+        static bool comparePositiveIntegers(const Integer& lhs, const Integer& rhs);
+
+        static Integer divPositiveIntegers(const Integer &lhs, const Integer& rhs);
+
+        static Integer diff(const Integer &lhs, const Integer& rhs);
+
+        Integer absValue() const;
+
     private:
 
         std::string value = "0";
@@ -47,9 +61,17 @@ namespace cosc326 {
         // Can add internal storage or methods here
         std::string repr() const;
 
-        Integer absValue() const;
+        std::string stripLeadingZeros(std::string str);
 
-        bool isPositive() const;
+        std::string stripPositiveSign(std::string str);
+
+        static bool strIsPositive(std::string str);
+
+        static bool strIsInteger(std::string str);
+
+        std::string parseValue(std::string value);
+
+        std::string strAbsValue(std::string str) const;
     };
 
     // Binary operators
@@ -62,7 +84,7 @@ namespace cosc326 {
     std::ostream& operator<<(std::ostream& os, const Integer& i);  // std::cout << i << std::endl;
     std::istream& operator>>(std::istream& is, Integer& i);        // std::cin >> i;
 
-    bool operator> (const Integer& lhs, const Integer& rhs); // lhs > rhs
+    bool operator>(const Integer& lhs, const Integer& rhs); // lhs > rhs
     bool operator<=(const Integer& lhs, const Integer& rhs); // lhs <= rhs
     bool operator>=(const Integer& lhs, const Integer& rhs); // lhs >= rhs
     bool operator==(const Integer& lhs, const Integer& rhs); // lhs == rhs
@@ -71,4 +93,7 @@ namespace cosc326 {
     Integer gcd(const Integer& a, const Integer& b);  // i = gcd(a, b);
 }
 
+static cosc326::Integer ZERO = cosc326::Integer("0");
+
 #endif
+
