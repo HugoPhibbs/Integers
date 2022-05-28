@@ -8,27 +8,9 @@
 #include <utility>
 #include <algorithm>
 
-#include <bits/stdc++.h>
+using namespace std;
 
-/**
- * For reversing strings: https://www.geeksforgeeks.org/reverse-a-string-in-c-cpp-different-methods/
- */
-
-/*
- * Some Sources that we can use:
- *
- * Division:
- * https://www.geeksforgeeks.org/divide-large-number-represented-string/?fbclid=IwAR0nBCvBETTIQANRESw_YhBY9eQqThO-NE8Vu53xFQg5r_8Tfma8_hyRKY0
- *
- * Addition:
- * https://www.geeksforgeeks.org/sum-two-large-numbers/
- *
- * Subtraction:
- * https://www.gee  ksforgeeks.org/difference-of-two-large-numbers/ this finds difference, we can just switch sign
- *
- * Multiplication:
- * https://www.geeksforgeeks.org/multiply-large-numbers-represented-as-strings/
- */
+#include <assert.h>
 
 
 namespace cosc326 {
@@ -50,44 +32,71 @@ namespace cosc326 {
     }
 
     std::string Integer::repr() const {
-        return value; // FIXME
+        return value;
     }
 
     void Integer::setValue(std::string val) {
-        value = parseValue(std::move(val)); // FIXME
+        value = parseValue(std::move(val));
     }
 
-    Integer Integer::divPositiveIntegers(const Integer &lhs, const Integer &rhs) {
-        // FIXME
-        std::string ans;
-        std::string number = lhs.getValue();
-        unsigned long long divisor = std::stoull(rhs.getValue());
-        int idx = 0;
-        unsigned long long temp = number[idx] - '0';
-        while (temp < divisor) {
-            temp = temp * 10 + (number[++idx] - '0');
+    /**
+     * Finds the Quotient and Remainder when one number is divided by another
+     *
+     * NOTE, assumes lhs and rhs are both POSITIVE.
+     * 
+     * @param lhs
+     * @param rhs
+     * @return
+     */
+    Integer *Integer::findQuotientAndRemainder(const Integer &lhs, const Integer &rhs) {
+        assert((rhs != ZERO));
+        Integer quotient = Integer("0");
+        Integer remainder = Integer("0");
+        auto *result = new Integer[2];
+        if ((ZERO < lhs) && (lhs < rhs)) {
+            remainder = Integer(rhs);
         }
-        while (number.size() > idx) {
-            ans += std::to_string((temp / divisor) + '0');
-            temp = (temp % divisor) * 10 + number[++idx] - '0';
+        if ((lhs != ZERO)) {
+            if (lhs == rhs) {
+                quotient = Integer("1");
+            } else {
+                std::string dvd = lhs.getValue();
+                std::string dvs = rhs.getValue();
+                remainder = Integer("" + dvd);
+                int baseCount;
+                int magDiff;
+                Integer dvsAdj;
+                while (remainder >= rhs) {
+                    baseCount = 0;
+                    magDiff = std::max(int(remainder.getValue().size() - dvs.size() - 1), 0);
+                    dvsAdj = Integer(dvs + (std::string(magDiff, '0')));
+                    while (remainder > ZERO) {
+                        if ((remainder - dvsAdj) >= ZERO) {
+                            remainder -= dvsAdj;
+                            baseCount++;
+                        } else {
+                            break;
+                        }
+                    }
+                    quotient += Integer(to_string(baseCount) + std::string(magDiff, '0'));
+                }
+            }
         }
-        if (ans.length() == 0) {
-            return Integer("0");
-        }
-        return Integer(ans);
+        result[0] = quotient;
+        result[1] = remainder;
+        return result;
     }
 
     Integer operator/(const Integer &lhs, const Integer &rhs) {
         assert(rhs != ZERO);
-        // TODO what to do for division that results in a non integer value?
         if (lhs.isPositive() && rhs.isPositive()) {
-            return Integer::divPositiveIntegers(lhs, rhs);
+            return Integer::findQuotientAndRemainder(lhs, rhs)[0];
         } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -Integer::divPositiveIntegers(lhs, rhs.absValue());
+            return -Integer::findQuotientAndRemainder(lhs, rhs.absValue())[0];
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -Integer::divPositiveIntegers(lhs.absValue(), rhs);
+            return -Integer::findQuotientAndRemainder(lhs.absValue(), rhs)[0];
         }
-        return Integer::divPositiveIntegers(lhs.absValue(), rhs.absValue());
+        return Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[0];
     }
 
     Integer operator+(const Integer &lhs, const Integer &rhs) {
@@ -115,120 +124,69 @@ namespace cosc326 {
 
         std::string num1 = lhs.getValue();
         std::string num2 = rhs.getValue();
-
         int len1 = num1.size();
         int len2 = num2.size();
         if (len1 == 0 || len2 == 0)
             return Integer("0");
-
-        // will keep the result number in vector
-        // in reverse order
         std::vector<int> result(len1 + len2, 0);
-
-        // Below two indexes are used to find positions
-        // in result.
         int i_n1 = 0;
         int i_n2 = 0;
-
-        // Go from right to left in num1
         for (int i = len1 - 1; i >= 0; i--) {
             int carry = 0;
             int n1 = num1[i] - '0';
-
-            // To shift position to left after every
-            // multiplication of a digit in num2
             i_n2 = 0;
-
-            // Go from right to left in num2
             for (int j = len2 - 1; j >= 0; j--) {
-                // Take current digit of second number
                 int n2 = num2[j] - '0';
-
-                // Multiply with current digit of first number
-                // and add result to previously stored result
-                // at current position.
                 int sum = n1 * n2 + result[i_n1 + i_n2] + carry;
-
-                // Carry for next iteration
                 carry = sum / 10;
-
-                // Store result
                 result[i_n1 + i_n2] = sum % 10;
-
                 i_n2++;
             }
-
-            // store carry in next cell
             if (carry > 0)
                 result[i_n1 + i_n2] += carry;
-
-            // To shift position to left after every
-            // multiplication of a digit in num1.
             i_n1++;
         }
-
-        // ignore '0's from the right
         int i = result.size() - 1;
         while (i >= 0 && result[i] == 0)
             i--;
-
-        // If all were '0's - means either both or
-        // one of num1 or num2 were '0'
         if (i == -1)
             return Integer("0");
-
-        // generate the result string
         std::string s = "";
-
         while (i >= 0)
             s += std::to_string(result[i--]);
         return Integer(s);
     }
 
+    /**
+     * Adds two positive Integers together
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return Integer
+     */
     Integer Integer::addPositiveIntegers(const Integer &lhs, const Integer &rhs) {
-        // TODO Handle negatives
         std::string str1 = lhs.getValue();
         std::string str2 = rhs.getValue();
-        // Before proceeding further, make sure length
-        // of str2 is larger.
         if (str1.length() > str2.length())
             swap(str1, str2);
-
-        // Take an empty string for storing result
         std::string result = "";
-
-        // Calculate length of both string
         int n1 = str1.length(), n2 = str2.length();
-
-        // Reverse both of strings
-        reverse(str1.begin(), str1.end()); // FIXME
+        reverse(str1.begin(), str1.end());
         reverse(str2.begin(), str2.end());
-
         int carry = 0;
         for (int i = 0; i < n1; i++) {
-            // Do school mathematics, compute sum of
-            // current digits and carry
             int sum = ((str1[i] - '0') + (str2[i] - '0') + carry);
             result.push_back(sum % 10 + '0');
-
-            // Calculate carry for next step
             carry = sum / 10;
         }
-
-        // Add remaining digits of larger number
         for (int i = n1; i < n2; i++) {
             int sum = ((str2[i] - '0') + carry);
             result.push_back(sum % 10 + '0');
             carry = sum / 10;
         }
-
-        // Add remaining carry
         if (carry)
             result.push_back(carry + '0');
-
-        // reverse resultant string
         reverse(result.begin(), result.end());
-
         return Integer(result);
     }
 
@@ -247,30 +205,14 @@ namespace cosc326 {
         assert(lhs.isPositive() && rhs.isPositive());
         std::string str1 = lhs.absValue().getValue();
         std::string str2 = rhs.absValue().getValue();
-        // TODO normalise!
-        // Before proceeding further, make sure length
-        // of str2 is larger.
-
-        // Before proceeding further, make sure str1
-        // is not smaller
         if (Integer(str1) < Integer(str2)) {
             swap(str1, str2);
         }
-
-        // Take an empty string for storing result
         std::string str = "";
-
-        // Calculate lengths of both string
         int n1 = str1.length(), n2 = str2.length();
         int diff = n1 - n2;
-
-        // Initially take carry zero
         int carry = 0;
-
-        // Traverse from end of both strings
         for (int i = n2 - 1; i >= 0; i--) {
-            // Do school mathematics, compute difference of
-            // current digits and carry
             int sub = ((str1[i + diff] - '0') - (str2[i] - '0')
                        - carry);
             if (sub < 0) {
@@ -278,11 +220,8 @@ namespace cosc326 {
                 carry = 1;
             } else
                 carry = 0;
-
             str.push_back(sub + '0');
         }
-
-        // subtract remaining digits of str1[]
         for (int i = n1 - n2 - 1; i >= 0; i--) {
             if (str1[i] == '0' && carry) {
                 str.push_back('9');
@@ -293,10 +232,7 @@ namespace cosc326 {
                 str.push_back(sub + '0');
             carry = 0;
         }
-
-        // reverse resultant string
         reverse(str.begin(), str.end());
-
         return Integer(str);
     }
 
@@ -336,7 +272,16 @@ namespace cosc326 {
     }
 
     Integer operator%(const Integer &lhs, const Integer &rhs) {
-        return lhs; // TODO
+        if (lhs == ZERO || (lhs.absValue() == rhs.absValue())) {
+            return Integer("0");
+        }
+        Integer positiveRemainder = Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[1];
+        if (lhs < ZERO || rhs < ZERO) {
+            return (rhs.absValue() - positiveRemainder).absValue();
+        } else {
+            return positiveRemainder;
+        }
+
     }
 
 
@@ -346,8 +291,7 @@ namespace cosc326 {
     }
 
     std::istream &operator>>(std::istream &input, Integer &b) {
-
-        //    input >> b.getValue();
+        // input >> b.setValue(); FIXME
         return input;
     }
 
@@ -449,7 +393,6 @@ namespace cosc326 {
      * @return value parsed into a usable form
      */
     std::string Integer::parseValue(std::string val) {
-        // TODO handle - 0 cases
         assert(strIsInteger(val));
         val = stripPositiveSign(val);
         val = stripLeadingZeros(val);
@@ -483,7 +426,7 @@ namespace cosc326 {
     /**
      * Finds out if a string is positive.
      *
-     * Assumes that the inputted string can be interpreted as a string or not
+     * Assumes that the inputted string can be interpreted as a integer
      *
      * Any str that doesn't have a leading minus sign is treated as positive.
      *
@@ -491,7 +434,6 @@ namespace cosc326 {
      * @return
      */
     bool Integer::strIsPositive(std::string str) {
-        // TODO redo with zero
         if (!str.empty()) {
             return str[0] != '-';
         }
@@ -572,14 +514,11 @@ namespace cosc326 {
         assert(lhs.isPositive() && rhs.isPositive());
         std::string str1 = lhs.getValue();
         std::string str2 = rhs.getValue();
-        // Calculate lengths of both string
         int n1 = str1.length(), n2 = str2.length();
-
         if (n1 < n2)
             return true;
         if (n2 < n1)
             return false;
-
         for (int i = 0; i < n1; i++) {
             if (str1[i] < str2[i])
                 return true;

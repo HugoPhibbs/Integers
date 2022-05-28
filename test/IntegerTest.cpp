@@ -37,6 +37,8 @@ namespace cosc326 {
         EXPECT_EQ("5", f.getValue());
         h -= d;
         EXPECT_EQ("4", h.getValue());
+        h %= d;
+        EXPECT_EQ("1", h.getValue());
     }
 
     TEST_F(IntegerTest, TestUnary) {
@@ -56,12 +58,14 @@ namespace cosc326 {
         y.setValue("5");
         EXPECT_EQ("5", gcd(x, y).getValue());
 
-        x = -x;
+        x = -x; // x now -5
         EXPECT_EQ("5", gcd(x, y).getValue());
         EXPECT_EQ("5", gcd(y, x).getValue());
 
         y = -y;
         EXPECT_EQ("5", gcd(x, y).getValue());
+
+        EXPECT_EQ("4", gcd(Integer("4"), Integer("4")).getValue());
     }
 
     TEST_F(IntegerTest, TestEquality) {
@@ -78,8 +82,10 @@ namespace cosc326 {
         EXPECT_TRUE(a >= a);
         EXPECT_FALSE(a < a);
         EXPECT_TRUE(a < b);
-        EXPECT_TRUE(b < a);
+        EXPECT_FALSE(b < a);
         EXPECT_TRUE(d > e);
+        EXPECT_TRUE(i < h);
+        EXPECT_TRUE(e < i);
     }
 
     TEST_F(IntegerTest, TestAbsValue) {
@@ -135,6 +141,9 @@ namespace cosc326 {
         EXPECT_EQ("50", (f * e).getValue());
         EXPECT_EQ("-14", (g * h).getValue());
         EXPECT_EQ("-14", (h * g).getValue());
+
+        // Big Numbers
+        EXPECT_EQ("62386149467931173657937623830189851280126870913571634187803335663909242", (Integer("456787484812957596827") * Integer("136575872899575287489595712748754917457626458917646")).getValue());
     }
 
     TEST_F(IntegerTest, TestDivision) {
@@ -155,7 +164,31 @@ namespace cosc326 {
         EXPECT_EQ("6", (j / d).getValue());
         EXPECT_EQ("-6", (-j / d).getValue());
         EXPECT_EQ("-9", (j / g).getValue());
-        EXPECT_EQ("5", (f / e).getValue());
+        EXPECT_EQ("2", (f / e).getValue());
+
+        EXPECT_EQ("25", (Integer("125") / Integer("5")).getValue());
+        EXPECT_EQ("312", (Integer("1248") / Integer("4")).getValue());
+        EXPECT_EQ("97", (Integer("291") / Integer("3")).getValue());
+
+        EXPECT_EQ("2", (j / h).getValue());
+        EXPECT_EQ("-2", (Integer("-15") / Integer("7")).getValue());
+        EXPECT_EQ("2", (Integer("-15") / Integer("-7")).getValue());
+
+        // Big Number tests!
+        EXPECT_EQ("500", (Integer("2000") / Integer("4")).getValue());
+        EXPECT_EQ("10444451", (Integer("52222255") / Integer("5")).getValue());
+    }
+
+    TEST_F(IntegerTest, TestBigNumberDivision) {
+        EXPECT_EQ("500", (Integer("2000") / Integer("4")).getValue());
+        EXPECT_EQ("10444451", (Integer("52222255") / Integer("5")).getValue());
+
+        // 100!/50!
+        Integer fact100 = Integer(
+                "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000");
+        Integer fact50 = Integer("30414093201713378043612608166064768844377641568960512000000000000");
+        EXPECT_EQ("3068518756254966037202730459529469739228459721684688959447786986982158958772355072000000000000",
+                  (fact100 / fact50).getValue());
     }
 
     TEST_F(IntegerTest, TestStringConstructor) {
@@ -175,14 +208,28 @@ namespace cosc326 {
     }
 
     TEST_F(IntegerTest, TestModulo) {
-        // TODO
+        EXPECT_EQ("0", (j % d).getValue());
+        EXPECT_EQ("6", (Integer("-15") % Integer("7")).getValue());
+        EXPECT_EQ("6", (Integer("-15") % Integer("-7")).getValue());
+        EXPECT_EQ("1", (Integer("15") % Integer("7")).getValue());
+        EXPECT_EQ("0", (Integer("14") % Integer("7")).getValue());
+        EXPECT_EQ("0", (c % g).getValue());
+        EXPECT_EQ("0", (c % b).getValue());
+        EXPECT_EQ("0", (h % h).getValue());
+        EXPECT_EQ("0", (h % (-h)).getValue());
+        EXPECT_EQ("0", ((-h) % (-h)).getValue());
+        EXPECT_EQ("0", ((-h) % (+h)).getValue());
+        EXPECT_EQ("5", (Integer("5") % Integer("10")).getValue());
     }
 
     TEST_F(IntegerTest, TestCopyConstructor) {
         Integer x = Integer(a);
         EXPECT_EQ("1", x.getValue());
 
-        Integer y = Integer(e);
+        Integer y = Integer(i);
         EXPECT_EQ("-1", y.getValue());
+        y -= a; // Check memory spot not tethered
+        EXPECT_EQ("-2", y.getValue());
+        EXPECT_EQ("-1", i.getValue());
     }
 }
