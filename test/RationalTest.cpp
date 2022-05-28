@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include "../src/Rational.h"
 
-/*
 namespace cosc326 {
 
     class RationalTest : public ::testing::Test {
@@ -101,5 +100,3 @@ namespace cosc326 {
     };
 
 };
-
- */
