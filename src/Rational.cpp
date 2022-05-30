@@ -25,7 +25,7 @@ namespace cosc326 {
             std::string num = str.substr(foundDot + 1, foundSlash - foundDot - 1);
             std::string den = str.substr(foundSlash + 1, str.length() + 1);
             temp = convertToImproper(Integer(wholeS), Integer(num), Integer(den));
-            this->den = temp.den;
+            this->den = (temp.den).absValue();
             this->num = temp.num;
         } else {
             std::string num = str.substr(0, foundSlash);
@@ -61,7 +61,7 @@ namespace cosc326 {
     Rational::~Rational() = default;
 
     Rational &Rational::operator=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         this->num = r.num;
         this->den = r.den;
         return *this;
@@ -76,14 +76,14 @@ namespace cosc326 {
     }
 
     Rational &Rational::operator+=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this + r);
         return *this;
     }
 
 
     Rational &Rational::operator-=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this - r);
         return *this;
 
@@ -91,13 +91,13 @@ namespace cosc326 {
     }
 
     Rational &Rational::operator*=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this * r);
         return *this;
     }
 
     Rational &Rational::operator/=(const Rational &r) {
-        // Rational a = r.convertToImprop();
+
         *this = Rational(*this / r);
         return *this;
     }
@@ -229,8 +229,11 @@ namespace cosc326 {
         Rational temp;
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
-        temp.den = den / greatestCD;
+        temp.den = (den / greatestCD); //might need to change
         temp.num = num / greatestCD;
+        if(temp.den == -temp.den && temp.num == -temp.num){
+            return +temp;
+        }
         return temp;
         return Rational();
     }
