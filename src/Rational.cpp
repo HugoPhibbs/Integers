@@ -229,11 +229,8 @@ namespace cosc326 {
         Rational temp;
         Integer greatestCD;
         greatestCD = gcd(this->den, this->num);
-        temp.den = (den / greatestCD); //might need to change
+        temp.den = den / greatestCD; //might need to change
         temp.num = num / greatestCD;
-        if(temp.den == -temp.den && temp.num == -temp.num){
-            return +temp;
-        }
         return temp;
         return Rational();
     }
