@@ -54,6 +54,7 @@ namespace cosc326 {
 
         Integer absValue() const;
 
+        // Can add internal storage or methods here
         std::string repr() const;
 
     private:
