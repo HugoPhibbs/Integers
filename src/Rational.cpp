@@ -135,28 +135,27 @@ namespace cosc326 {
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
         std::string s;
-        Integer whole, numerator, denomnator;
-        int x = stoi(i.num.repr());
-        int g = stoi(i.den.repr());
+        Integer whole, numerator, denominator;
+        Integer num = i.num;
+        Integer den = i.den;
         if (i.den == Integer("1")) {
-            Integer g = Integer(i.num);
-            s = g.repr();
+            Integer g = Integer(num);
+            s = g.getValue();
             os << s;
-        } else if (abs(x) > abs(g)) {
-            whole = i.num / i.den;
-            int p = abs(stoi(i.num.repr()) % stoi(i.den.repr()));
-            numerator = Integer(std::to_string(p));
-            denomnator = Integer(std::to_string(abs(stoi(i.den.repr()))));
-            Rational t = Rational(numerator,denomnator).simplify();
-            s = whole.repr() + "." + t.num.repr() + "/" + t.den.repr();
+        } else if (num.absValue() > den.absValue()) {
+            whole = num / den;
+            Integer p = num.absValue() % den;
+            numerator = Integer(p);
+            denominator = Integer(den.absValue());
+            Rational t = Rational(numerator, denominator).simplify();
+            s = whole.getValue() + "." + t.num.getValue() + "/" + t.den.getValue();
             os << s;
-        } else if (abs(stoi(i.num.repr())) == abs(stoi(i.den.repr()))) {
+        } else if (num.absValue() == den.absValue()) {
             os << "1";
-
-        } else if(i.num.repr() == "0") {
+        } else if(num == ZERO) {
             os << "0";
         } else {
-            s = i.num.repr() + "/" + i.den.repr();
+            s = i.num.getValue() + "/" + i.den.getValue();
             os << s;
         }
         return os;
@@ -208,7 +207,7 @@ namespace cosc326 {
 
     bool operator==(const Rational &lhs, const Rational &rhs) {
         Rational temp = lhs / rhs;
-        if ((abs(stoi(temp.num.repr()))) == 1 && (abs(stoi(temp.den.repr())) == 1)) {
+        if ((temp.num.absValue() == ONE && temp.den.absValue() == ONE)) {
             return true;
         } else {
             return false;
