@@ -9,54 +9,54 @@ namespace cosc326 {
 
     class IntegerTest : public ::testing::Test {
     protected :
-        Integer a = Integer("1");
-        Integer b = Integer("2");
-        Integer c = Integer("0");
-        Integer d = Integer("3");
-        Integer e = Integer("-5");
-        Integer f = Integer("-10");
-        Integer g = Integer("-2");
-        Integer h = Integer("7");
-        Integer i = Integer("-1");
-        Integer j = Integer("18");
+        Integer pos1 = Integer("1");
+        Integer pos2 = Integer("2");
+        Integer zero = Integer("0");
+        Integer pos3 = Integer("3");
+        Integer min5 = Integer("-5");
+        Integer min10 = Integer("-10");
+        Integer min2 = Integer("-2");
+        Integer pos7 = Integer("7");
+        Integer min1 = Integer("-1");
+        Integer pos18 = Integer("18");
     };
 
     TEST_F(IntegerTest, TestBasicArithmetic) {
-        EXPECT_EQ("3", (a + b).getValue());
-        EXPECT_EQ("0", (a / b).getValue());
-        EXPECT_EQ("2", (b / a).getValue());
-        EXPECT_EQ("6", (b * d).getValue());
+        EXPECT_EQ("3", (pos1 + pos2).getValue());
+        EXPECT_EQ("0", (pos1 / pos2).getValue());
+        EXPECT_EQ("2", (pos2 / pos1).getValue());
+        EXPECT_EQ("6", (pos2 * pos3).getValue());
     }
 
     TEST_F(IntegerTest, TestAssignment) {
         Integer x = Integer("4");
-        x = g;
+        x = min2;
         EXPECT_EQ("-2", x.getValue());
-        EXPECT_EQ("-2", g.getValue());
-        x+=b;
+        EXPECT_EQ("-2", min2.getValue());
+        x+=pos2;
         EXPECT_EQ("0", x.getValue());
-        EXPECT_EQ("-2", g.getValue());
+        EXPECT_EQ("-2", min2.getValue());
     }
 
     TEST_F(IntegerTest, TestReassignment) {
-        a += b;
-        EXPECT_EQ("3", a.getValue());
-        b *= d;
-        EXPECT_EQ("6", b.getValue());
-        f /= g;
-        EXPECT_EQ("5", f.getValue());
-        h -= d;
-        EXPECT_EQ("4", h.getValue());
-        h %= d;
-        EXPECT_EQ("1", h.getValue());
+        pos1 += pos2;
+        EXPECT_EQ("3", pos1.getValue());
+        pos2 *= pos3;
+        EXPECT_EQ("6", pos2.getValue());
+        min10 /= min2;
+        EXPECT_EQ("5", min10.getValue());
+        pos7 -= pos3;
+        EXPECT_EQ("4", pos7.getValue());
+        pos7 %= pos3;
+        EXPECT_EQ("1", pos7.getValue());
     }
 
     TEST_F(IntegerTest, TestUnary) {
-        EXPECT_EQ("-1", (-a).getValue());
-        EXPECT_EQ("5", (-e).getValue());
-        EXPECT_EQ("0", (-c).getValue());
-        EXPECT_EQ("-1", (+i).getValue());
-        EXPECT_EQ("1", (-i).getValue());
+        EXPECT_EQ("-1", (-pos1).getValue());
+        EXPECT_EQ("5", (-min5).getValue());
+        EXPECT_EQ("0", (-zero).getValue());
+        EXPECT_EQ("-1", (+min1).getValue());
+        EXPECT_EQ("1", (-min1).getValue());
     }
 
     TEST_F(IntegerTest, TestGCD) {
@@ -79,51 +79,51 @@ namespace cosc326 {
     }
 
     TEST_F(IntegerTest, TestEquality) {
-        EXPECT_TRUE(a == a);
-        EXPECT_TRUE(a != b);
-        EXPECT_FALSE(a == b);
-        Integer x = -a;
-        EXPECT_FALSE(x == a);
-        EXPECT_TRUE(x != a);
+        EXPECT_TRUE(pos1 == pos1);
+        EXPECT_TRUE(pos1 != pos2);
+        EXPECT_FALSE(pos1 == pos2);
+        Integer x = -pos1;
+        EXPECT_FALSE(x == pos1);
+        EXPECT_TRUE(x != pos1);
     }
 
     TEST_F(IntegerTest, TestInEqualities) {
-        EXPECT_TRUE(a <= a);
-        EXPECT_TRUE(a >= a);
-        EXPECT_FALSE(a < a);
-        EXPECT_TRUE(a < b);
-        EXPECT_FALSE(b < a);
-        EXPECT_TRUE(d > e);
-        EXPECT_TRUE(i < h);
-        EXPECT_TRUE(e < i);
+        EXPECT_TRUE(pos1 <= pos1);
+        EXPECT_TRUE(pos1 >= pos1);
+        EXPECT_FALSE(pos1 < pos1);
+        EXPECT_TRUE(pos1 < pos2);
+        EXPECT_FALSE(pos2 < pos1);
+        EXPECT_TRUE(pos3 > min5);
+        EXPECT_TRUE(min1 < pos7);
+        EXPECT_TRUE(min5 < min1);
     }
 
     TEST_F(IntegerTest, TestAbsValue) {
-        EXPECT_EQ("1", a.absValue().getValue());
-        EXPECT_EQ("10", f.absValue().getValue());
-        EXPECT_EQ("0", c.absValue().getValue());
+        EXPECT_EQ("1", pos1.absValue().getValue());
+        EXPECT_EQ("10", min10.absValue().getValue());
+        EXPECT_EQ("0", zero.absValue().getValue());
     }
 
     TEST_F(IntegerTest, TestSubtraction) {
-        EXPECT_EQ("-8", (e - d).getValue());
-        EXPECT_EQ("-5", (f - e).getValue());
-        EXPECT_EQ("-3", (e - g).getValue());
-        EXPECT_EQ("-1", (b - d).getValue());
-        EXPECT_EQ("1", (d - b).getValue());
-        EXPECT_EQ("4", (h - d).getValue());
-        EXPECT_EQ("0", (d - d).getValue());
-        EXPECT_EQ("0", (c - c).getValue());
+        EXPECT_EQ("-8", (min5 - pos3).getValue());
+        EXPECT_EQ("-5", (min10 - min5).getValue());
+        EXPECT_EQ("-3", (min5 - min2).getValue());
+        EXPECT_EQ("-1", (pos2 - pos3).getValue());
+        EXPECT_EQ("1", (pos3 - pos2).getValue());
+        EXPECT_EQ("4", (pos7 - pos3).getValue());
+        EXPECT_EQ("0", (pos3 - pos3).getValue());
+        EXPECT_EQ("0", (zero - zero).getValue());
 
-        EXPECT_EQ("9999999", (Integer("10000000") - a).getValue());
+        EXPECT_EQ("9999999", (Integer("10000000") - pos1).getValue());
     }
 
     TEST_F(IntegerTest, TestAddition) {
-        EXPECT_EQ("5", (d + b).getValue());
-        EXPECT_EQ("-15", (f + e).getValue());
-        EXPECT_EQ("-3", (b + e).getValue());
-        EXPECT_EQ("-3", (e + b).getValue());
-        EXPECT_EQ("0", (c + c).getValue());
-        EXPECT_EQ("2", (b + c).getValue());
+        EXPECT_EQ("5", (pos3 + pos2).getValue());
+        EXPECT_EQ("-15", (min10 + min5).getValue());
+        EXPECT_EQ("-3", (pos2 + min5).getValue());
+        EXPECT_EQ("-3", (min5 + pos2).getValue());
+        EXPECT_EQ("0", (zero + zero).getValue());
+        EXPECT_EQ("2", (pos2 + zero).getValue());
     }
 
     TEST_F(IntegerTest, TestMultiplication) {
@@ -137,20 +137,20 @@ namespace cosc326 {
          * zero negative
          * zero positive
          */
-        EXPECT_EQ("0", (c * c).getValue());
-        EXPECT_EQ("0", (c * e).getValue());
-        EXPECT_EQ("0", (c * a).getValue());
+        EXPECT_EQ("0", (zero * zero).getValue());
+        EXPECT_EQ("0", (zero * min5).getValue());
+        EXPECT_EQ("0", (zero * pos1).getValue());
 
-        EXPECT_EQ("1", (a * a).getValue());
-        EXPECT_EQ("-5", (a * e).getValue());
-        EXPECT_EQ("-10", (f * a).getValue());
-        EXPECT_EQ("3", (a * d).getValue());
-        EXPECT_EQ("6", (b * d).getValue());
+        EXPECT_EQ("1", (pos1 * pos1).getValue());
+        EXPECT_EQ("-5", (pos1 * min5).getValue());
+        EXPECT_EQ("-10", (min10 * pos1).getValue());
+        EXPECT_EQ("3", (pos1 * pos3).getValue());
+        EXPECT_EQ("6", (pos2 * pos3).getValue());
 
-        EXPECT_EQ("50", (e * f).getValue());
-        EXPECT_EQ("50", (f * e).getValue());
-        EXPECT_EQ("-14", (g * h).getValue());
-        EXPECT_EQ("-14", (h * g).getValue());
+        EXPECT_EQ("50", (min5 * min10).getValue());
+        EXPECT_EQ("50", (min10 * min5).getValue());
+        EXPECT_EQ("-14", (min2 * pos7).getValue());
+        EXPECT_EQ("-14", (pos7 * min2).getValue());
 
         // Big Numbers
         EXPECT_EQ("62386149467931173657937623830189851280126870913571634187803335663909242", (Integer("456787484812957596827") * Integer("136575872899575287489595712748754917457626458917646")).getValue());
@@ -167,20 +167,21 @@ namespace cosc326 {
          * zero negative
          * zero positive
          */
-        EXPECT_EQ("0", (c / d).getValue());
-        EXPECT_EQ("0", (c / i).getValue());
-        EXPECT_EQ("-7", (h / i).getValue());
-        EXPECT_EQ("3", (d / a).getValue());
-        EXPECT_EQ("6", (j / d).getValue());
-        EXPECT_EQ("-6", (-j / d).getValue());
-        EXPECT_EQ("-9", (j / g).getValue());
-        EXPECT_EQ("2", (f / e).getValue());
+        EXPECT_EQ("0", (zero / pos3).getValue());
+        EXPECT_EQ("0", (zero / min1).getValue());
+        EXPECT_EQ("-7", (pos7 / min1).getValue());
+        EXPECT_EQ("3", (pos3 / pos1).getValue());
+        EXPECT_EQ("6", (pos18 / pos3).getValue());
+        EXPECT_EQ("-6", (-pos18 / pos3).getValue());
+        EXPECT_EQ("-9", (pos18 / min2).getValue());
+        EXPECT_EQ("2", (min10 / min5).getValue());
+        EXPECT_EQ("1", (min1 / min1).getValue());
 
         EXPECT_EQ("25", (Integer("125") / Integer("5")).getValue());
         EXPECT_EQ("312", (Integer("1248") / Integer("4")).getValue());
         EXPECT_EQ("97", (Integer("291") / Integer("3")).getValue());
 
-        EXPECT_EQ("2", (j / h).getValue());
+        EXPECT_EQ("2", (pos18 / pos7).getValue());
         EXPECT_EQ("-2", (Integer("-15") / Integer("7")).getValue());
         EXPECT_EQ("2", (Integer("-15") / Integer("-7")).getValue());
 
@@ -218,28 +219,28 @@ namespace cosc326 {
     }
 
     TEST_F(IntegerTest, TestModulo) {
-        EXPECT_EQ("0", (j % d).getValue());
+        EXPECT_EQ("0", (pos18 % pos3).getValue());
         EXPECT_EQ("6", (Integer("-15") % Integer("7")).getValue());
         EXPECT_EQ("6", (Integer("-15") % Integer("-7")).getValue());
         EXPECT_EQ("1", (Integer("15") % Integer("7")).getValue());
         EXPECT_EQ("0", (Integer("14") % Integer("7")).getValue());
-        EXPECT_EQ("0", (c % g).getValue());
-        EXPECT_EQ("0", (c % b).getValue());
-        EXPECT_EQ("0", (h % h).getValue());
-        EXPECT_EQ("0", (h % (-h)).getValue());
-        EXPECT_EQ("0", ((-h) % (-h)).getValue());
-        EXPECT_EQ("0", ((-h) % (+h)).getValue());
+        EXPECT_EQ("0", (zero % min2).getValue());
+        EXPECT_EQ("0", (zero % pos2).getValue());
+        EXPECT_EQ("0", (pos7 % pos7).getValue());
+        EXPECT_EQ("0", (pos7 % (-pos7)).getValue());
+        EXPECT_EQ("0", ((-pos7) % (-pos7)).getValue());
+        EXPECT_EQ("0", ((-pos7) % (+pos7)).getValue());
         EXPECT_EQ("5", (Integer("5") % Integer("10")).getValue());
     }
 
     TEST_F(IntegerTest, TestCopyConstructor) {
-        Integer x = Integer(a);
+        Integer x = Integer(pos1);
         EXPECT_EQ("1", x.getValue());
 
-        Integer y = Integer(i);
+        Integer y = Integer(min1);
         EXPECT_EQ("-1", y.getValue());
-        y -= a; // Check memory spot not tethered
+        y -= pos1; // Check memory spot not tethered
         EXPECT_EQ("-2", y.getValue());
-        EXPECT_EQ("-1", i.getValue());
+        EXPECT_EQ("-1", min1.getValue());
     }
 }
