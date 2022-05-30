@@ -53,7 +53,7 @@ namespace cosc326 {
         static Integer diff(const Integer &lhs, const Integer &rhs);
 
         Integer absValue() const;
-
+      
         std::string repr() const;
 
     private:

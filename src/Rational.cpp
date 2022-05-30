@@ -30,8 +30,8 @@ namespace cosc326 {
         } else {
             std::string num = str.substr(0, foundSlash);
             std::string den = str.substr(foundSlash + 1, foundSlash - str.length() + 1);
-            this->den = Integer(num);
-            this->num = Integer(den);
+            this->num = Integer(num);
+            this->den = Integer(den);
         }
 
     };
@@ -138,15 +138,23 @@ namespace cosc326 {
         Integer whole, numerator, denomnator;
         int x = stoi(i.num.repr());
         int g = stoi(i.den.repr());
-        if (abs(x) > abs(g)) {
+        if (i.den == Integer("1")) {
+            Integer g = Integer(i.num);
+            s = g.repr();
+            os << s;
+        } else if (abs(x) > abs(g)) {
             whole = i.num / i.den;
             int p = abs(stoi(i.num.repr()) % stoi(i.den.repr()));
-            numerator = Integer(p);
-            denomnator = Integer(abs(stoi(i.den.repr())));
-            s = whole.repr() + "." + numerator.repr() + "/" + denomnator.repr();
+            numerator = Integer(std::to_string(p));
+            denomnator = Integer(std::to_string(abs(stoi(i.den.repr()))));
+            Rational t = Rational(numerator,denomnator).simplify();
+            s = whole.repr() + "." + t.num.repr() + "/" + t.den.repr();
             os << s;
         } else if (abs(stoi(i.num.repr())) == abs(stoi(i.den.repr()))) {
             os << "1";
+
+        } else if(i.num.repr() == "0") {
+            os << "0";
         } else {
             s = i.num.repr() + "/" + i.den.repr();
             os << s;
@@ -220,10 +228,10 @@ namespace cosc326 {
 
     Rational Rational::simplify() const {
         Rational temp;
-        Integer gcd;
-        gcd = Integer(gcd.gcd(this->den, this->num));
-        temp.den = den / gcd;
-        temp.num = num / gcd;
+        Integer greatestCD;
+        greatestCD = gcd(this->den, this->num);
+        temp.den = den / greatestCD;
+        temp.num = num / greatestCD;
         return temp;
         return Rational();
     }
@@ -237,7 +245,7 @@ namespace cosc326 {
 
 
     std::string Rational::toString() const {
-        std::string s;
+   /*     std::string s;
         Integer whole, numerator, denomnator;
         int x = stoi(this->num.repr());
         int g = stoi(this->den.repr());
@@ -256,6 +264,7 @@ namespace cosc326 {
             return s;
         }
         return "";
+        */
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
