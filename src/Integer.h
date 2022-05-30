@@ -54,12 +54,11 @@ namespace cosc326 {
 
         Integer absValue() const;
 
+        std::string repr() const;
+
     private:
 
         std::string value = "0";
-
-        // Can add internal storage or methods here
-        std::string repr() const;
 
         std::string stripLeadingZeros(std::string str);
 
