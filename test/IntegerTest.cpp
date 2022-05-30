@@ -19,6 +19,7 @@ namespace cosc326 {
         Integer pos7 = Integer("7");
         Integer min1 = Integer("-1");
         Integer pos18 = Integer("18");
+        Integer min6 = Integer("-6");
     };
 
     TEST_F(IntegerTest, TestBasicArithmetic) {
@@ -60,22 +61,12 @@ namespace cosc326 {
     }
 
     TEST_F(IntegerTest, TestGCD) {
-        Integer x = Integer("0");
-        Integer y = Integer("0");
-        EXPECT_EQ("0", gcd(x, y).getValue());
+        EXPECT_EQ("1", gcd(pos1, pos1).getValue());
+        // GCD of zero is not defined!
 
-        x.setValue("10");
-        y.setValue("5");
-        EXPECT_EQ("5", gcd(x, y).getValue());
-
-        x = -x; // x now -5
-        EXPECT_EQ("5", gcd(x, y).getValue());
-        EXPECT_EQ("5", gcd(y, x).getValue());
-
-        y = -y;
-        EXPECT_EQ("5", gcd(x, y).getValue());
-
-        EXPECT_EQ("4", gcd(Integer("4"), Integer("4")).getValue());
+        EXPECT_EQ("5", gcd(min10, min5).getValue());
+        EXPECT_EQ("5", gcd(min10, -min5).getValue());
+        EXPECT_EQ("6", gcd(pos18, min6).getValue());
     }
 
     TEST_F(IntegerTest, TestEquality) {
