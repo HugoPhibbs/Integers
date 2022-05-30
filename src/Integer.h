@@ -93,6 +93,7 @@ namespace cosc326 {
 }
 
 static cosc326::Integer ZERO = cosc326::Integer("0");
+static cosc326::Integer ONE = cosc326::Integer("1");
 
 #endif
 
