@@ -53,8 +53,7 @@ namespace cosc326 {
         static Integer diff(const Integer &lhs, const Integer &rhs);
 
         Integer absValue() const;
-
-        // Can add internal storage or methods here
+      
         std::string repr() const;
 
     private:
@@ -94,7 +93,6 @@ namespace cosc326 {
 }
 
 static cosc326::Integer ZERO = cosc326::Integer("0");
-static cosc326::Integer ONE = cosc326::Integer("1");
 
 #endif
 
