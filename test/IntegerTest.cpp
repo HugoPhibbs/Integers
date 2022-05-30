@@ -28,6 +28,16 @@ namespace cosc326 {
         EXPECT_EQ("6", (b * d).getValue());
     }
 
+    TEST_F(IntegerTest, TestAssignment) {
+        Integer x = Integer("4");
+        x = g;
+        EXPECT_EQ("-2", x.getValue());
+        EXPECT_EQ("-2", g.getValue());
+        x+=b;
+        EXPECT_EQ("0", x.getValue());
+        EXPECT_EQ("-2", g.getValue());
+    }
+
     TEST_F(IntegerTest, TestReassignment) {
         a += b;
         EXPECT_EQ("3", a.getValue());
