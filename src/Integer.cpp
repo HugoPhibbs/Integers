@@ -12,8 +12,11 @@ using namespace std;
 
 #include <assert.h>
 
+// TODO, tidy up class!
 
 namespace cosc326 {
+
+    /* Constructors */
 
     Integer::Integer() = default;
 
@@ -27,16 +30,41 @@ namespace cosc326 {
         value = b.getValue();
     }
 
+    /* General methods */
+
     std::string Integer::getValue() const {
         return value;
+    }
+
+    void Integer::setValue(std::string val) {
+        value = parseValue(std::move(val));
     }
 
     std::string Integer::repr() const {
         return value;
     }
 
-    void Integer::setValue(std::string val) {
-        value = parseValue(std::move(val));
+    /* Doing Arithmetic */
+
+    // Division
+
+    /**
+     * Division operator
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return a new Integer
+     */
+    Integer operator/(const Integer &lhs, const Integer &rhs) {
+        assert(rhs != ZERO);
+        if (lhs.isPositive() && rhs.isPositive()) {
+            return Integer::findQuotientAndRemainder(lhs, rhs)[0];
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return -Integer::findQuotientAndRemainder(lhs, rhs.absValue())[0];
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -Integer::findQuotientAndRemainder(lhs.absValue(), rhs)[0];
+        }
+        return Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[0];
     }
 
     /**
@@ -87,27 +115,24 @@ namespace cosc326 {
         return result;
     }
 
-    Integer operator/(const Integer &lhs, const Integer &rhs) {
-        assert(rhs != ZERO);
-        if (lhs.isPositive() && rhs.isPositive()) {
-            return Integer::findQuotientAndRemainder(lhs, rhs)[0];
-        } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -Integer::findQuotientAndRemainder(lhs, rhs.absValue())[0];
-        } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -Integer::findQuotientAndRemainder(lhs.absValue(), rhs)[0];
-        }
-        return Integer::findQuotientAndRemainder(lhs.absValue(), rhs.absValue())[0];
-    }
+    // Multiplication
 
-    Integer operator+(const Integer &lhs, const Integer &rhs) {
+    /**
+     * Multiplication operator
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return a new Integer
+     */
+    Integer operator*(const Integer &lhs, const Integer &rhs) {
         if (lhs.isPositive() && rhs.isPositive()) {
-            return cosc326::Integer::addPositiveIntegers(lhs, rhs);
+            return Integer::mulPositiveIntegers(lhs, rhs);
         } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -(rhs.absValue() - lhs.absValue());
+            return -Integer::mulPositiveIntegers(lhs, rhs.absValue());
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -(lhs.absValue() - rhs.absValue());
+            return -Integer::mulPositiveIntegers(lhs.absValue(), rhs);
         }
-        return -(lhs.absValue() + rhs.absValue());
+        return Integer::mulPositiveIntegers(lhs.absValue(), rhs.absValue());
     }
 
     /**
@@ -157,37 +182,30 @@ namespace cosc326 {
         return Integer(s);
     }
 
+    // Subtraction
+
     /**
-     * Adds two positive Integers together
+     * Subtraction operator
      *
-     * @param lhs Integer
-     * @param rhs Integer
-     * @return Integer
+     * @param lhs
+     * @param rhs
+     * @return
      */
-    Integer Integer::addPositiveIntegers(const Integer &lhs, const Integer &rhs) {
-        std::string str1 = lhs.getValue();
-        std::string str2 = rhs.getValue();
-        if (str1.length() > str2.length())
-            swap(str1, str2);
-        std::string result = "";
-        int n1 = str1.length(), n2 = str2.length();
-        reverse(str1.begin(), str1.end());
-        reverse(str2.begin(), str2.end());
-        int carry = 0;
-        for (int i = 0; i < n1; i++) {
-            int sum = ((str1[i] - '0') + (str2[i] - '0') + carry);
-            result.push_back(sum % 10 + '0');
-            carry = sum / 10;
+    Integer operator-(const Integer &lhs, const Integer &rhs) {
+        if (!lhs.isPositive() && !rhs.isPositive()) {
+            return -(lhs.absValue() - rhs.absValue());
+        } else if (!lhs.isPositive() && rhs.isPositive()) {
+            return -(lhs.absValue() + rhs.absValue());
+        } else if (lhs.isPositive() && !rhs.isPositive()) {
+            return lhs + rhs.absValue();
+        } else {
+            if (lhs >= rhs) {
+                return Integer::diff(lhs, rhs);
+            } else {
+                return -Integer::diff(lhs, rhs);
+            }
         }
-        for (int i = n1; i < n2; i++) {
-            int sum = ((str2[i] - '0') + carry);
-            result.push_back(sum % 10 + '0');
-            carry = sum / 10;
-        }
-        if (carry)
-            result.push_back(carry + '0');
-        reverse(result.begin(), result.end());
-        return Integer(result);
+
     }
 
     /**
@@ -236,41 +254,68 @@ namespace cosc326 {
         return Integer(str);
     }
 
+    // Addition
+
     /**
-     * Subtraction operator
+     * Addition operator
      *
-     * @param lhs
-     * @param rhs
-     * @return
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return a new Integer
      */
-    Integer operator-(const Integer &lhs, const Integer &rhs) {
-        if (!lhs.isPositive() && !rhs.isPositive()) {
-            return -(lhs.absValue() - rhs.absValue());
-        } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -(lhs.absValue() + rhs.absValue());
-        } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return lhs + rhs.absValue();
-        } else {
-            if (lhs >= rhs) {
-                return Integer::diff(lhs, rhs);
-            } else {
-                return -Integer::diff(lhs, rhs);
-            }
-        }
-
-    }
-
-    Integer operator*(const Integer &lhs, const Integer &rhs) {
+    Integer operator+(const Integer &lhs, const Integer &rhs) {
         if (lhs.isPositive() && rhs.isPositive()) {
-            return Integer::mulPositiveIntegers(lhs, rhs);
+            return cosc326::Integer::addPositiveIntegers(lhs, rhs);
         } else if (lhs.isPositive() && !rhs.isPositive()) {
-            return -Integer::mulPositiveIntegers(lhs, rhs.absValue());
+            return -(rhs.absValue() - lhs.absValue());
         } else if (!lhs.isPositive() && rhs.isPositive()) {
-            return -Integer::mulPositiveIntegers(lhs.absValue(), rhs);
+            return -(lhs.absValue() - rhs.absValue());
         }
-        return Integer::mulPositiveIntegers(lhs.absValue(), rhs.absValue());
+        return -(lhs.absValue() + rhs.absValue());
     }
 
+    /**
+     * Adds two positive Integers together
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return Integer
+     */
+    Integer Integer::addPositiveIntegers(const Integer &lhs, const Integer &rhs) {
+        std::string str1 = lhs.getValue();
+        std::string str2 = rhs.getValue();
+        if (str1.length() > str2.length())
+            swap(str1, str2);
+        std::string result = "";
+        int n1 = str1.length(), n2 = str2.length();
+        reverse(str1.begin(), str1.end());
+        reverse(str2.begin(), str2.end());
+        int carry = 0;
+        for (int i = 0; i < n1; i++) {
+            int sum = ((str1[i] - '0') + (str2[i] - '0') + carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum / 10;
+        }
+        for (int i = n1; i < n2; i++) {
+            int sum = ((str2[i] - '0') + carry);
+            result.push_back(sum % 10 + '0');
+            carry = sum / 10;
+        }
+        if (carry)
+            result.push_back(carry + '0');
+        reverse(result.begin(), result.end());
+        return Integer(result);
+    }
+
+    // Modulo
+
+    /**
+     * Modulo operator
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return a new Integer
+     */
     Integer operator%(const Integer &lhs, const Integer &rhs) {
         if (lhs == ZERO || (lhs.absValue() == rhs.absValue())) {
             return Integer("0");
@@ -284,16 +329,28 @@ namespace cosc326 {
 
     }
 
+    // GCD
 
-    std::ostream &operator<<(std::ostream &os, const Integer &i) {
-        os << i.getValue() << std::endl;
-        return os;
+    /**
+     * Finds the greatest common divisor between two integers.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    Integer gcd(const Integer &a, const Integer &b) {
+        Integer a1 = a.absValue();
+        Integer b1 = b.absValue();
+        if (a1 == ZERO) {
+            return b1;
+        } else if (b1 == ZERO) {
+            return a1;
+        }
+        Integer remainder = a1 % b1;
+        return gcd(b1, remainder);
     }
 
-    std::istream &operator>>(std::istream &input, Integer &b) {
-        // input >> b.setValue(); FIXME
-        return input;
-    }
+    /* Reassignment operators */
 
     Integer &Integer::operator=(const Integer &i) {
         this->setValue(i.getValue());
@@ -325,6 +382,7 @@ namespace cosc326 {
         return *this;
     }
 
+    /* Inequality operators */
 
     bool operator<(const Integer &lhs, const Integer &rhs) {
         if (lhs == rhs) {
@@ -352,6 +410,37 @@ namespace cosc326 {
         return (lhs > rhs) || (lhs == rhs);
     }
 
+    /**
+     * Compares two positive Integers to see which one is bigger
+     *
+     * True if lhs < rhs
+     *
+     * Asserts that both lhs and rhs are positive
+     *
+     * @param lhs Integer
+     * @param rhs Integer
+     * @return bool as described
+     */
+    bool Integer::comparePositiveIntegers(const Integer &lhs, const Integer &rhs) {
+        assert(lhs.isPositive() && rhs.isPositive());
+        std::string str1 = lhs.getValue();
+        std::string str2 = rhs.getValue();
+        int n1 = str1.length(), n2 = str2.length();
+        if (n1 < n2)
+            return true;
+        if (n2 < n1)
+            return false;
+        for (int i = 0; i < n1; i++) {
+            if (str1[i] < str2[i])
+                return true;
+            else if (str1[i] > str2[i])
+                return false;
+        }
+        return false;
+    }
+
+    /* Equality operators */
+
     bool operator==(const Integer &lhs, const Integer &rhs) {
         return lhs.getValue() == rhs.getValue();
     }
@@ -359,6 +448,8 @@ namespace cosc326 {
     bool operator!=(const Integer &lhs, const Integer &rhs) {
         return !(lhs == rhs);
     }
+
+    /* Unary operators */
 
     Integer Integer::operator+() const {
         return Integer(value);
@@ -370,6 +461,8 @@ namespace cosc326 {
         }
         return Integer(absValue().getValue());
     }
+
+    /* General helper methods */
 
     /**
      * Finds out if an Integer is positive or not
@@ -499,52 +592,18 @@ namespace cosc326 {
         return str;
     }
 
-    /**
-     * Compares two positive Integers to see which one is bigger
-     *
-     * True if lhs < rhs
-     *
-     * Asserts that both lhs and rhs are positive
-     *
-     * @param lhs Integer
-     * @param rhs Integer
-     * @return bool as described
-     */
-    bool Integer::comparePositiveIntegers(const Integer &lhs, const Integer &rhs) {
-        assert(lhs.isPositive() && rhs.isPositive());
-        std::string str1 = lhs.getValue();
-        std::string str2 = rhs.getValue();
-        int n1 = str1.length(), n2 = str2.length();
-        if (n1 < n2)
-            return true;
-        if (n2 < n1)
-            return false;
-        for (int i = 0; i < n1; i++) {
-            if (str1[i] < str2[i])
-                return true;
-            else if (str1[i] > str2[i])
-                return false;
-        }
-        return false;
+    /* Extraction and insertion */
+
+    std::ostream &operator<<(std::ostream &os, const Integer &i) {
+        os << i.getValue() << std::endl;
+        return os;
     }
 
-    /**
-     * Finds the greatest common divisor between two integers.
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    Integer gcd(const Integer &a, const Integer &b) {
-        Integer a1 = a.absValue();
-        Integer b1 = b.absValue();
-        if (a1 == ZERO) {
-            return b1;
-        } else if (b1 == ZERO) {
-            return a1;
-        }
-        Integer remainder = a1 % b1;
-        return gcd(b1, remainder);
+    std::istream &operator>>(std::istream &input, Integer &b) {
+        std::string val;
+        input >> val;
+        b.setValue(val);
+        return input;
     }
 }
 
