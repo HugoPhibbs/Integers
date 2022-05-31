@@ -65,7 +65,8 @@ namespace cosc326 {
     std::ostream& operator<<(std::ostream& os, const Rational& i);  // std::cout << i << std::endl;
     std::istream& operator>>(std::istream& is, Rational& i);        // std::cin >> i;
 
-    bool operator> (const Rational& lhs, const Rational& rhs); // lhs > rhs
+    bool operator<(const Rational& lhs, const Rational& rhs);
+    bool operator>(const Rational& lhs, const Rational& rhs); // lhs > rhs
     bool operator<=(const Rational& lhs, const Rational& rhs); // lhs <= rhs
     bool operator>=(const Rational& lhs, const Rational& rhs); // lhs >= rhs
     bool operator==(const Rational& lhs, const Rational& rhs); // lhs == rhs
