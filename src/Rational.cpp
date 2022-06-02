@@ -68,11 +68,23 @@ namespace cosc326 {
     }
 
     Rational Rational::operator-() const { //need more help??
-        return Rational(-getValue());
+        if(this->num.isPositive()){
+            Integer num = Integer("-" + this->num.getValue());
+            Rational temp = Rational(num, den );
+            return temp;
+        } else {
+            return Rational(getValue());
+        }
     }
 
     Rational Rational::operator+() const {
-        return Rational(+getValue());
+        if(!this->num.isPositive()) {
+            Integer num = this->num.absValue();
+            Rational temp = Rational(num,den);
+            return temp;
+        } else {
+            return Rational(getValue());
+        }
     }
 
     Rational &Rational::operator+=(const Rational &r) {
@@ -127,9 +139,17 @@ namespace cosc326 {
 
     Rational operator/(const Rational &lhs, const Rational &rhs) {
         Rational temp;
-        temp.num = lhs.num * rhs.den;
-        temp.den = lhs.den * rhs.num;
-        return temp.simplify();
+        if(!lhs.num.isPositive() && !rhs.num.isPositive()){
+            Integer lhsNum = lhs.num.absValue();
+            Integer rhsNum = rhs.num.absValue();
+            temp.num = lhsNum * rhs.den;
+            temp.den = lhs.den * rhsNum;
+            return temp.simplify();
+        } else {
+            temp.num = lhs.num * rhs.den;
+            temp.den = lhs.den * rhs.num;
+            return temp.simplify();
+        }
     }
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
@@ -268,7 +288,7 @@ namespace cosc326 {
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
-        if (w == Integer(0)) {
+        if (w == Integer("0")) {
             return Rational(n, d);
         } else {
             Rational temp;
@@ -277,7 +297,7 @@ namespace cosc326 {
             temp.num = (w * d) + wholeSign * n;
             return temp;
         }
-        return Rational();
+
     }
 };
 

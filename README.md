@@ -84,3 +84,102 @@ g++ -std=c++11 Integer.cpp Rational.cpp main.cpp -o main
 - Our tests for Rational and Integer can be found in the attached test package. They are quite long, so I have decided
   not add them to the README.
 - Tests are done using [Google Test](https://google.github.io/googletest/)
+
+
+Rational test:
+## Negitives:
+
+* Rational t = Rational("-1/2"); == "-1/2"
+* "-1/2" + "-3/2" = "-2"
+* "-1/2" * "-3/2" = "3/4"
+* "-1/2" - "-3/2" = "1"
+* "-1/2" / "-3/2" = "1/3"
+* "-1/2" /= "-3/2" = "1/3"
+* "-1/2" *= "-3/2" = "3/4"
+* "-1/2" -= "-3/2" = "1"
+* "-1/2" += "-3/2" = "2"
+
+## Positives
+* Rational t = Rational("1/2");
+* "1/2" + "3/2" = "2"
+* "1/2" - "3/2" = "-1"
+* "1/2" * "3/2" = "3/4"
+* "1/2" / "3/2" = "1/3"
+* "1/2" /= "3/2" = "1/3"
+* "1/2" *= "3/2" = "3/4"
+* "1/2" -= "3/2" = "-1"
+* "1/2" += "3/2" = "2"
+
+
+## signs:
+t = 1/2,    g = 3/2
+* if(t < g){
+         cout << "working";
+     }
+* if(g < t){
+         cout << " not working"; (shouldnt print)
+     }
+* if(g > t){
+         cout << "working";
+     }
+* if(t > g){
+         cout << " not working"; (shouldnt print)
+     }
+* if(t >= g){
+         cout << "not working"; (Shouldnt print)
+     }
+* if(g >= t){
+         cout << "working"; 
+     }
+* if(t >= t){
+         cout << "working"; 
+     }
+
+* if(t <= g){
+         cout << "working";
+     }
+* if(g <= t){
+         cout << "not working"; (shouldnt print)
+     }
+* if(t <= t){
+         cout << "working"; 
+     }
+* if(t == t){
+         cout << "working";
+     }
+* if(t == g){
+         cout << "not working"; (shouldnt print)
+     }
+
+* if(t != t){
+         cout << "not working"; (shouldnt print)
+     }
+* if(t != g){
+         cout << "working";
+     }
+
+
+## Unary: 
+* t = -1/2
+t = +t; returns: 1/2
+
+
+* t = 1/2
+t = -t; returns: -1/2
+
+
+
+## Assignment: 
+  *  Rational t = Rational("-1/2"); == "-1/2"
+  *  Rational t = Rational(Integer("1"), Integer("2")); == "1/2"
+  *   Rational t = Rational(Integer("-1"), Integer("2")); == "-1/2"
+  *  Rational t = Rational(); == "0"
+  *  Rational t = Rational(Integer("1"), Integer("1"), Integer("2")); == "1.1/2"
+
+
+
+
+    
+
+
+
