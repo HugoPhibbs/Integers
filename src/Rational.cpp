@@ -61,7 +61,7 @@ namespace cosc326 {
     Rational::~Rational() = default;
 
     Rational &Rational::operator=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         this->num = r.num;
         this->den = r.den;
         return *this;
@@ -88,14 +88,14 @@ namespace cosc326 {
     }
 
     Rational &Rational::operator+=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this + r);
         return *this;
     }
 
 
     Rational &Rational::operator-=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this - r);
         return *this;
 
@@ -103,13 +103,13 @@ namespace cosc326 {
     }
 
     Rational &Rational::operator*=(const Rational &r) {
-        //  Rational a = r.convertToImprop();
+
         *this = Rational(*this * r);
         return *this;
     }
 
     Rational &Rational::operator/=(const Rational &r) {
-        // Rational a = r.convertToImprop();
+
         *this = Rational(*this / r);
         return *this;
     }
@@ -288,15 +288,18 @@ namespace cosc326 {
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
-        if (w == ZERO) {
+        if (w == Integer("0")) {
             return Rational(n, d);
         } else {
             Rational temp;
             temp.den = d;
             Integer wholeSign = w.absValue();
-            temp.num = (w * d) + wholeSign * n;
+            temp.num = (w * d) + n;
             return temp;
         }
+
+
+
     }
 };
 
