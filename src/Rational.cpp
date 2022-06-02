@@ -268,7 +268,7 @@ namespace cosc326 {
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
-        if (w == Integer(0)) {
+        if (w == ZERO) {
             return Rational(n, d);
         } else {
             Rational temp;
