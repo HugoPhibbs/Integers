@@ -130,15 +130,15 @@ namespace cosc326 {
         temp.num = lhs.num * rhs.den;
         temp.den = lhs.den * rhs.num;
         return temp.simplify();
-
     }
 
     std::ostream &operator<<(std::ostream &os, const Rational &i) {
         std::string s;
         Integer whole, numerator, denominator;
-        Integer num = i.num;
-        Integer den = i.den;
-        if (i.den == Integer("1")) {
+        Rational simplified = i.simplify(); // Simplifies
+        Integer num = simplified.num;
+        Integer den = simplified.den;
+        if (den == Integer("1")) {
             Integer g = Integer(num);
             s = g.getValue();
             os << s;
@@ -155,7 +155,7 @@ namespace cosc326 {
         } else if(num == ZERO) {
             os << "0";
         } else {
-            s = i.num.getValue() + "/" + i.den.getValue();
+            s = num.getValue() + "/" + den.getValue();
             os << s;
         }
         return os;
@@ -264,6 +264,7 @@ namespace cosc326 {
         }
         return "";
         */
+        return "";
     }
 
     Rational Rational::convertToImproper(Integer w, Integer n, Integer d) {
