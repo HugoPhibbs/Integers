@@ -294,9 +294,11 @@ namespace cosc326 {
             Rational temp;
             temp.den = d;
             Integer wholeSign = w.absValue();
-            temp.num = (w * d) + wholeSign * n;
+            temp.num = (w * d) + n;
             return temp;
         }
+
+
 
     }
 };
