@@ -8,11 +8,9 @@ using namespace std;
 
 int main() {
 
+    Rational t = Rational("-3.1/2");
 
-
-    Rational r7("+15.32/2");
-    cout << "r7 "<<r7 << endl;
-
+    cout << t;
     return 0;
 };
 

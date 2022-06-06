@@ -294,7 +294,10 @@ namespace cosc326 {
             Rational temp;
             temp.den = d;
             Integer wholeSign = w.absValue();
-            temp.num = (w * d) + n;
+            temp.num = (wholeSign * d) + n;
+            if(!w.isPositive()){
+                return -temp;
+            }
             return temp;
         }
 
